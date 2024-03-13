@@ -1,17 +1,11 @@
-import * as React from 'react';
+import React from 'react';
 import AppBar from '@mui/material/AppBar';
-
 import Toolbar from '@mui/material/Toolbar';
-
 import Typography from '@mui/material/Typography';
-
 import Container from '@mui/material/Container';
 
 
-const pages = ['Products', 'Pricing', 'Blog'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
-
-function ResponsiveAppBar() {
+const Header = () => {
 
   return (
     <AppBar>
@@ -25,4 +19,4 @@ function ResponsiveAppBar() {
     </AppBar>
   );
 }
-export default ResponsiveAppBar;
+export default Header;

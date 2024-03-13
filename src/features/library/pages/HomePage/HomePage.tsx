@@ -1,14 +1,14 @@
 import React from 'react'
-import ResponsiveAppBar from '../../components/Header/Header'
 import BookList from '../../components/BookList/BookList'
+import { Box } from '@mui/material'
 
 const HomePage: React.FC = () => {
   return (
-    <>
-        {/* <ResponsiveAppBar/> */}
-        <BookList/>
-    </>
-   
+    <Box marginTop={20}>
+      <BookList/>
+      <BookList/>
+      <BookList/>
+    </Box>
   )
 }
 
