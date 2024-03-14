@@ -37,7 +37,7 @@ const FlexBox = styled(Box)({
 
 const ListItemButtonStyled = styled(ListItemButton)(({theme}) => ({
     backgroundColor: theme.palette.primary.main,
-    marginBottom: 30
+    marginBottom: 30,
 })) as typeof ListItemButton
 
 const BookDetailPage: React.FC = () => {

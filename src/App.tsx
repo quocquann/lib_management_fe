@@ -5,6 +5,8 @@ import { CssBaseline, ThemeProvider } from '@mui/material';
 import theme from './theme';
 import BookDetailPage from './features/library/pages/BookDetailPage/BookDetailPage';
 import HomeLayout from './shared/Layouts/HomeLayout/HomeLayout';
+import BorrowPage from './features/library/pages/BorrowPage/BorrowPage';
+import SearchBookPage from './features/library/pages/SearchBookPage/SearchBookPage';
 
 function App() {
   return <>
@@ -18,6 +20,8 @@ function App() {
             <Route path="home" element={<HomeLayout/>}>
               <Route path="" element={<HomePage/>}/>
               <Route path="detail" element={<BookDetailPage/>}/>  
+              <Route path="borrow" element={<BorrowPage/>}/>
+              <Route path="search" element={<SearchBookPage/>}/>
             </Route>
           </Routes>
       </BrowserRouter>
