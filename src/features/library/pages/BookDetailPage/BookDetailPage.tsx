@@ -1,8 +1,12 @@
 import React from 'react'
 import {styled} from '@mui/material/styles'
-import { Box, Collapse, Container, List, ListItemButton, ListItemIcon, ListItemText, Paper, Rating, Typography } from '@mui/material'
+import { Box, Button, Collapse, Container, List, ListItemButton, ListItemIcon, ListItemText, Paper, Rating, Typography } from '@mui/material'
 import { Add, Remove } from '@mui/icons-material'
 import BookList from '../../components/BookList/BookList'
+import { bookList } from '../../../../shared/mocks/bookList'
+import CategoryLabel from '../../components/CategoryLabel/CategoryLabel'
+import { useAppDispatch } from '../../../../redux/hook'
+import { librarySlice } from '../../services/states/librarySlice'
 
 const ContainerStyled = styled(Container)({
     marginTop: 20,
@@ -40,10 +44,23 @@ const ListItemButtonStyled = styled(ListItemButton)(({theme}) => ({
     marginBottom: 30,
 })) as typeof ListItemButton
 
+const ButtonStyled = styled(Button)({
+    width: '100%',
+    height:50
+}) as typeof Button
+
 const BookDetailPage: React.FC = () => {
 
   const [isDescribeTabOpen, setIsDescribeTabOpen] = React.useState<boolean>(false)
   const [isReviewTabOpen, setIsReviewTabOpen] = React.useState<boolean>(false)
+
+  const dispatch = useAppDispatch()  
+
+  const handleAddButtonClick = () => {
+    //TODO:
+    console.log(1)
+  }  
+
 
   const handleDescribeChange = () => {
     setIsDescribeTabOpen((prev) => !prev)
@@ -75,23 +92,29 @@ const BookDetailPage: React.FC = () => {
                     </Typography>
                     <FlexBox>
                         <Typography>
-                            Author: Hanah Grace
+                            Tác giả: Hanah Grace
                         </Typography>
                         <Typography>
-                            Genre: Fiction
+                            Thể loại: Fiction
                         </Typography>
                     </FlexBox>
                     <Rating value={4} size='small' readOnly/>
                     <Box component='ul'>
                         <Box component='li'>
-                            <Typography fontSize={14}>Publisher : Simon & Schuster (November 16, 2021) </Typography>
+                            <Typography fontSize={14}>Nhà xuất bản : Simon & Schuster (November 16, 2021) </Typography>
                         </Box>
                         <Box component='li'>
                             <Typography fontSize={14}>ISBN-10 : 1501153641</Typography>
                         </Box>
                         <Box component='li'>
-                            <Typography fontSize={14}>Soluong: 20</Typography>
+                            <Typography fontSize={14}>Số lượng: 20</Typography>
                         </Box>
+                    </Box>
+
+                    <Box marginTop={10}>
+                        <ButtonStyled variant='contained' onClick={handleAddButtonClick}>
+                            Mượn
+                        </ButtonStyled>
                     </Box>
                 </BoxInfo>
                 <Box flex={1}>
@@ -101,7 +124,7 @@ const BookDetailPage: React.FC = () => {
                                 {isDescribeTabOpen ? <Remove/> : <Add/>}
                             </ListItemIcon>
                             <ListItemText>
-                                Describe
+                                Mô tả
                             </ListItemText>
                         </ListItemButtonStyled>
 
@@ -116,7 +139,7 @@ const BookDetailPage: React.FC = () => {
                             {isReviewTabOpen ? <Remove/> : <Add/>}
                             </ListItemIcon>
                             <ListItemText>
-                                Review
+                                Đánh giá
                             </ListItemText>
                         </ListItemButtonStyled>
 
@@ -138,7 +161,8 @@ const BookDetailPage: React.FC = () => {
                 </Box>
             </WrapBox>
 
-            <BookList/>
+            <CategoryLabel text='Có thể bạn thích'/>
+            <BookList books={bookList}/>
         </ContainerStyled>
     </Box>
   )

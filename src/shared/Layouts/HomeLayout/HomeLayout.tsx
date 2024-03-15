@@ -1,6 +1,6 @@
 import React from 'react'
-import Header from '../../../features/library/components/Header/Header'
 import { Outlet } from 'react-router-dom'
+import Header from '../../components/Header/Header'
 
 const HomeLayout: React.FC = () => {
   return (

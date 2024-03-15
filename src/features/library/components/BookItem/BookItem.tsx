@@ -2,9 +2,13 @@ import {Typography, Box, Paper, Rating, IconButton } from '@mui/material'
 import {styled} from '@mui/material/styles'
 import React from 'react'
 import AddIcon from '@mui/icons-material/Add';
+import { IBook } from '../../models/interface';
+import { useAppDispatch } from '../../../../redux/hook';
+import { librarySlice } from '../../services/states/librarySlice';
 
 const PaperStyled = styled(Paper)({
     objectFit: 'fill',
+    minHeight: 318
 }) as typeof Paper
 
 const TypographyStyled = styled(Typography)(({theme}) => ({
@@ -48,7 +52,19 @@ const ButtonStyled = styled(IconButton)(({theme}) => ({
     }
 })) as typeof IconButton
 
-const BookItem: React.FC = () => {
+interface IBookItemProps {
+    book: IBook
+}
+
+const BookItem: React.FC<IBookItemProps> = ({book}) => {
+
+  const dispatch = useAppDispatch()  
+
+  const handleAddButtonClick = () => {
+    dispatch(librarySlice.actions.addBookToBasket(book))
+  }  
+
+
   return (
     <Box component='div'>
         <ImageBox component='div'>
@@ -57,14 +73,14 @@ const BookItem: React.FC = () => {
                 square 
                 width='100%' 
                 height='100%' 
-                src='https://bizweb.dktcdn.net/thumb/large/100/364/248/products/71nj8ryhzrl-sl1500.jpg?v=1707149018717'
+                src={book.image}
             />
-            <ButtonStyled>
+            <ButtonStyled onClick={handleAddButtonClick}>
                 <AddIcon/>
             </ButtonStyled>
         </ImageBox>
-        <TypographyStyled variant='h6' component='h6'>Seven Year Slip: Ashley Poston Seven Year Slip: Ashley Poston</TypographyStyled>
-        <Typography align='center' variant='subtitle2' component='p'>Fiction</Typography>
+        <TypographyStyled variant='h6' component='h6'>{book.title}</TypographyStyled>
+        <Typography variant='subtitle2' component='p'>{book.genre}</Typography>
         <Rating size='small' readOnly value={4}/>
     </Box>
   )

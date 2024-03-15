@@ -7,12 +7,17 @@ import BookDetailPage from './features/library/pages/BookDetailPage/BookDetailPa
 import HomeLayout from './shared/Layouts/HomeLayout/HomeLayout';
 import BorrowPage from './features/library/pages/BorrowPage/BorrowPage';
 import SearchBookPage from './features/library/pages/SearchBookPage/SearchBookPage';
+import HistoryPage from './features/library/pages/HistoryPage/HistoryPage';
+import { Provider } from 'react-redux';
+import { store } from './redux/store';
+import { ToastContainer } from 'react-toastify';
 
 function App() {
   return <>
   <ThemeProvider theme={theme}>
     <CssBaseline/>
-    <BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter>
           <Routes>
             <Route path="" element={<Navigate to="home"/>}/>
             <Route path="login" element={<LoginPage/>}/>
@@ -22,9 +27,12 @@ function App() {
               <Route path="detail" element={<BookDetailPage/>}/>  
               <Route path="borrow" element={<BorrowPage/>}/>
               <Route path="search" element={<SearchBookPage/>}/>
+              <Route path="history" element={<HistoryPage/>}/>
             </Route>
           </Routes>
       </BrowserRouter>
+      <ToastContainer />
+    </Provider>
   </ThemeProvider>
   </>;
 }

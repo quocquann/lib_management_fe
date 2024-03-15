@@ -4,6 +4,9 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import {styled} from '@mui/material/styles'
 import dayjs from 'dayjs'
 import React from 'react'
+import { showAlert, ETypeAlert } from '../../../../shared/helpers/alert';
+import { useAppSelector } from '../../../../redux/hook';
+import { booksInBasketSelector } from '../../services/states/selector';
 
 
 const BoxStyled = styled(Box)({
@@ -24,6 +27,8 @@ const BorrowForm:React.FC = () => {
   const [startDate, setStartDate] = React.useState<dayjs.Dayjs | null>(null)
   const [endDate, setEndDate] = React.useState<dayjs.Dayjs | null>(null)
 
+  const booksInBasket = useAppSelector(booksInBasketSelector)
+
   const handleChangeStartDate = (newValue: dayjs.Dayjs | null) => {
     setStartDate(newValue)
   }
@@ -32,8 +37,17 @@ const BorrowForm:React.FC = () => {
     setEndDate(newValue)
   }
 
+  const handleBorrowButtonClick = () => {
+    if(booksInBasket.length > 3) {
+        showAlert("Bạn không được mượn nhiều hơn 3 cuốn sách", ETypeAlert.ERROR)
+    } else {
+        showAlert("Mượn sách thành công", ETypeAlert.SUCCESS)
+        //TODO: borrow book
+    }
+  }
+
   return (
-    <Box component={Paper} padding={2}>
+    <Box elevation={3} component={Paper} padding={2}>
         <Typography variant='h5' fontWeight={500} marginBottom={2}>
             Thời gian
         </Typography>
@@ -43,17 +57,17 @@ const BorrowForm:React.FC = () => {
                     value={startDate} 
                     onChange={handleChangeStartDate}
                     renderInput={(params) => <TextField {...params} />}
-                    label='Start date'
+                    label='Ngày mượn'
                 />
                 <DatePicker 
                     value={endDate} 
                     onChange={handleChangeEndDate}
                     renderInput={(params) => <TextField {...params} />}
-                    label='End date'
+                    label='Ngày trả'
                 />
             </LocalizationProvider>
 
-            <ButtonStyled variant='contained'>
+            <ButtonStyled variant='contained' onClick={handleBorrowButtonClick}>
                 <Typography>
                     Mượn
                 </Typography>

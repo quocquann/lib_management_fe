@@ -4,6 +4,8 @@ import {styled} from '@mui/material/styles'
 import React from 'react'
 import BookList from '../../components/BookList/BookList'
 import ListFilter from '../../components/ListFilter/ListFilter'
+import CategoryLabel from '../../components/CategoryLabel/CategoryLabel'
+import { bookList } from '../../../../shared/mocks/bookList'
 
 const WrapBox = styled(Box)({
     display: 'flex',
@@ -27,21 +29,35 @@ const SearchBookPage:React.FC = () => {
         <Container>
             <WrapBox>
                 <LeftBox>
-                    <TextField
-                        size='small'
-                        InputProps={{
-                           endAdornment: (
-                            <InputAdornment position="end">
-                                <Search />
-                            </InputAdornment>
-                           )
-                        }}  
-                    />
+                    <Box marginBottom={4}>
+                        <TextField
+                            fullWidth
+                            size='small'
+                            InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    <Search />
+                                </InputAdornment>
+                            )
+                            }}  
+                        />
+                    </Box>
+                    <CategoryLabel text='Author'/>
+                    <Box marginBottom={4}>
+                        <ListFilter/>
+                    </Box>
+                    
+                    <CategoryLabel text='Genre'/>
 
+                    <Box marginBottom={4}>
+                        <ListFilter/>
+                    </Box>
+
+                    <CategoryLabel text='Publisher'/>
                     <ListFilter/>
                 </LeftBox>
                 <RightBox>  
-                    <BookList/>
+                    <BookList full={false} books={bookList}/>
                     <Pagination count={10} shape="rounded" />
                 </RightBox>
             </WrapBox>

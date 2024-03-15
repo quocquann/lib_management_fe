@@ -5,8 +5,19 @@ import {styled} from '@mui/material/styles'
 const WraperBox = styled(Box)(({theme}) => ({
   border: '1px solid',
    borderColor: theme.palette.primary.main,
-   width: 280
+   width: '100%'
 })) as typeof Box
+
+const PaperStyled = styled(Paper)({
+  maxHeight:200,
+  overflow: 'auto',
+  '::-webkit-scrollbar': {
+    width: '7px'
+  },
+  '::-webkit-scrollbar-thumb': {
+    backgroundColor: 'rgba(0,0,0,.1)',
+  }
+}) as typeof Paper
 
 
 const ListFilter: React.FC = () => {
@@ -15,7 +26,7 @@ const ListFilter: React.FC = () => {
 
   return (
     <WraperBox>
-      <Paper style={{maxHeight: 200, overflow: 'auto'}}>
+      <PaperStyled>
         {data.map(item => (
           <List key={item} disablePadding>
             <ListItem component="div" disablePadding>
@@ -25,7 +36,7 @@ const ListFilter: React.FC = () => {
             </ListItem>
           </List>
         ))}
-      </Paper>
+      </PaperStyled>
     </WraperBox>
 )
 }
