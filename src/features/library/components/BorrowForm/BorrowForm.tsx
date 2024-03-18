@@ -6,7 +6,8 @@ import dayjs from 'dayjs'
 import React from 'react'
 import { showAlert, ETypeAlert } from '../../../../shared/helpers/alert';
 import { useAppSelector } from '../../../../redux/hook';
-import { booksInBasketSelector } from '../../services/states/selector';
+import { booksInBasketSelector,} from '../../services/states/selector';
+import formatDate from '../../../../shared/helpers/formatDate';
 
 
 const BoxStyled = styled(Box)({
@@ -42,6 +43,13 @@ const BorrowForm:React.FC = () => {
         showAlert("Bạn không được mượn nhiều hơn 3 cuốn sách", ETypeAlert.ERROR)
     } else {
         showAlert("Mượn sách thành công", ETypeAlert.SUCCESS)
+        let start = formatDate(startDate as dayjs.Dayjs)
+        let end = formatDate(endDate as dayjs.Dayjs)
+        console.table({
+            booksInBasket,
+            start,
+            end
+        })
         //TODO: borrow book
     }
   }

@@ -1,12 +1,12 @@
 import React from 'react'
 import {styled} from '@mui/material/styles'
-import { Box, Button, Collapse, Container, List, ListItemButton, ListItemIcon, ListItemText, Paper, Rating, Typography } from '@mui/material'
+import { Box, Button, Collapse, Container, List, ListItemButton, ListItemIcon, ListItemText, Pagination, Paper, Rating, Typography } from '@mui/material'
 import { Add, Remove } from '@mui/icons-material'
 import BookList from '../../components/BookList/BookList'
 import { bookList } from '../../../../shared/mocks/bookList'
 import CategoryLabel from '../../components/CategoryLabel/CategoryLabel'
 import { useAppDispatch } from '../../../../redux/hook'
-import { librarySlice } from '../../services/states/librarySlice'
+import ReviewList from '../../components/ReviewList/ReviewList'
 
 const ContainerStyled = styled(Container)({
     marginTop: 20,
@@ -143,19 +143,9 @@ const BookDetailPage: React.FC = () => {
                             </ListItemText>
                         </ListItemButtonStyled>
 
-                        <Collapse in={isReviewTabOpen} timeout='auto' unmountOnExit>
-                            <Typography>
-                                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Atque aliquam ut omnis eaque officia dicta, rem quam alias ipsum fuga, porro inventore nisi sed fugit? Quos iusto et adipisci libero?
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus ipsum ea quae ut reprehenderit labore, in temporibus facilis autem animi. Totam eveniet consequuntur aspernatur sed repellendus incidunt quam cumque atque.
-                                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquid optio laudantium perferendis magnam non cumque, temporibus nulla eaque impedit inventore tempore ab animi, corrupti eum voluptatem laborum, provident id quae.
-                                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Atque aliquam ut omnis eaque officia dicta, rem quam alias ipsum fuga, porro inventore nisi sed fugit? Quos iusto et adipisci libero?
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus ipsum ea quae ut reprehenderit labore, in temporibus facilis autem animi. Totam eveniet consequuntur aspernatur sed repellendus incidunt quam cumque atque.
-                                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquid optio laudantium perferendis magnam non cumque, temporibus nulla eaque impedit inventore tempore ab animi, corrupti eum voluptatem laborum, provident id quae.                           
-                                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Atque aliquam ut omnis eaque officia dicta, rem quam alias ipsum fuga, porro inventore nisi sed fugit? Quos iusto et adipisci libero?
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus ipsum ea quae ut reprehenderit labore, in temporibus facilis autem animi. Totam eveniet consequuntur aspernatur sed repellendus incidunt quam cumque atque.
-                                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquid optio laudantium perferendis magnam non cumque, temporibus nulla eaque impedit inventore tempore ab animi, corrupti eum voluptatem laborum, provident id quae.
-                            
-                            </Typography>
+                        <Collapse in={isReviewTabOpen} timeout='auto'>
+                            <ReviewList/>
+                            <Pagination count={10} shape="rounded" />
                         </Collapse>
                     </List>
                 </Box>

@@ -1,7 +1,9 @@
-import { ILibraryState, librarySlice } from './librarySlice';
+import { IAuthenticationState } from '../../../authentication/services/states/authenticationSlice';
+import { ILibraryState } from './librarySlice';
 
 
 interface IState {
+    authentication: IAuthenticationState
     library: ILibraryState
 }
 

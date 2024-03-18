@@ -7,3 +7,18 @@ export interface IBook {
     genre: string
     publisher: string   
 }
+
+export interface IAuthor {
+    id: number,
+    name: string
+}
+
+export interface IGenre {
+    id: number,
+    name: string
+}
+
+export interface IPublisher {
+    id: number,
+    name: string
+}

@@ -4,13 +4,14 @@ import HomePage from './features/library/pages/HomePage/HomePage';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import theme from './theme';
 import BookDetailPage from './features/library/pages/BookDetailPage/BookDetailPage';
-import HomeLayout from './shared/Layouts/HomeLayout/HomeLayout';
+import HomeLayout from './shared/layouts/HomeLayout/HomeLayout';
 import BorrowPage from './features/library/pages/BorrowPage/BorrowPage';
 import SearchBookPage from './features/library/pages/SearchBookPage/SearchBookPage';
 import HistoryPage from './features/library/pages/HistoryPage/HistoryPage';
 import { Provider } from 'react-redux';
 import { store } from './redux/store';
 import { ToastContainer } from 'react-toastify';
+import CalendarPage from './features/library/pages/CalendarPage/CalendarPage';
 
 function App() {
   return <>
@@ -28,6 +29,7 @@ function App() {
               <Route path="borrow" element={<BorrowPage/>}/>
               <Route path="search" element={<SearchBookPage/>}/>
               <Route path="history" element={<HistoryPage/>}/>
+              <Route path="calendar" element={<CalendarPage/>}/>
             </Route>
           </Routes>
       </BrowserRouter>

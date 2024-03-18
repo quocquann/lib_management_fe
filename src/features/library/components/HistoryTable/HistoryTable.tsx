@@ -22,12 +22,12 @@ const HistoryTable:React.FC = () => {
         status: 'loan'
     },
     {
-        billNo: 1, 
+        billNo: 2, 
         endDate: 'Hanah Grace', 
         startDate: 'Fiction', 
         status: 'loan'
     },{
-        billNo: 1, 
+        billNo: 3, 
         endDate: 'Hanah Grace', 
         startDate: 'Fiction', 
         status: 'loan'
@@ -42,7 +42,7 @@ const HistoryTable:React.FC = () => {
             <TableHead>
                 <TableRow>
                     {columns.map(column => (
-                        <TableCell>
+                        <TableCell key={column}>
                             <Typography>
                                 {column}
                             </Typography>
@@ -52,7 +52,7 @@ const HistoryTable:React.FC = () => {
             </TableHead>
             <TableBody>                        
                 {rows.map(row => (
-                    <Row {...row}/>
+                    <Row key={row.billNo} {...row}/>
                 ))}
             </TableBody>
         </Table>

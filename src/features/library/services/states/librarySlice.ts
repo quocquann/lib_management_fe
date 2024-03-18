@@ -8,7 +8,9 @@ export interface ILibraryState {
 export const librarySlice = createSlice({
     name: 'library',
     initialState: {
-        booksInBasket: []
+        booksInBasket: [],
+        startDate: null,
+        endDate: null
     } as ILibraryState,
     reducers: {
         addBookToBasket: (state, action) => {

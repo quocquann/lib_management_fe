@@ -1,6 +1,7 @@
 import { Box, List, ListItem, ListItemButton, ListItemText, Paper } from '@mui/material';
 import React from 'react'
 import {styled} from '@mui/material/styles'
+import { IAuthor, IGenre, IPublisher } from '../../models/interface';
 
 const WraperBox = styled(Box)(({theme}) => ({
   border: '1px solid',
@@ -19,19 +20,22 @@ const PaperStyled = styled(Paper)({
   }
 }) as typeof Paper
 
+interface IListFilterProps {
+  items: IAuthor[] | IGenre[] | IPublisher[]
+}
 
-const ListFilter: React.FC = () => {
-  const data = [1,2,3,4,5,6,7,8,9,10]
-  //TODO: add props
+
+const ListFilter: React.FC<IListFilterProps> = (props) => {
+  const {items} = props
 
   return (
     <WraperBox>
       <PaperStyled>
-        {data.map(item => (
-          <List key={item} disablePadding>
+        {items.map(item => (
+          <List key={item.id} disablePadding>
             <ListItem component="div" disablePadding>
               <ListItemButton>
-                <ListItemText primary={item} />
+                <ListItemText primary={item.name} />
               </ListItemButton>
             </ListItem>
           </List>

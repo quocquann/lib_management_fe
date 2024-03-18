@@ -3,6 +3,9 @@ import { Visibility, VisibilityOff} from '@mui/icons-material'
 import {styled} from '@mui/material/styles'
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { useAppDispatch, useAppSelector } from '../../../../redux/hook'
+import { emailSelector, passwordSelector } from '../../services/states/selectors'
+import { authenticationSlice } from '../../services/states/authenticationSlice'
 
 const DivideBox = styled(Box)({
   marginBottom: 30
@@ -19,28 +22,50 @@ const ButtonStyled = styled(Button)({
 const LoginForm:React.FC = () => {
 
   const [isShowPassword, setIsShowPassword] = React.useState(false)
+  
+  const dispatch = useAppDispatch()
+
+  const email = useAppSelector(emailSelector)
+  const password = useAppSelector(passwordSelector)
 
   const handleChangeVisiblePassword = () => {
     setIsShowPassword((prev) => !prev)
   }
 
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(authenticationSlice.actions.setEmail(e.target.value))
+  }
+
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(authenticationSlice.actions.setPassword(e.target.value))
+  }
+
+  const handleLoginButtonClick = () => {
+    console.table({email, password})
+    //TODO: call API
+  }
+
   return (
-    <Box square component={Paper} padding={3}>
+    <Box square elevation={3} component={Paper} padding={3}>
       <Typography align='center' variant='h4' fontWeight={500} marginBottom={3}>
-        Login
+        Đăng nhập
       </Typography>
       <DivideBox>
         <TextFieldStyled
           size='small'
-          label='Username'
+          label='Email'
+          value={email}
+          onChange={handleEmailChange}
         />
       </DivideBox>
 
       <DivideBox>
         <TextFieldStyled
           size='small'
-          label='Password'
+          label='Mật khẩu'
           type={isShowPassword ? 'text' : 'password'}
+          value={password}
+          onChange={handlePasswordChange}
           InputProps={{
             endAdornment: (
               <InputAdornment position='end'>
@@ -54,8 +79,8 @@ const LoginForm:React.FC = () => {
       </DivideBox>
 
       <DivideBox>
-        <ButtonStyled variant='contained'>
-          Login
+        <ButtonStyled onClick={handleLoginButtonClick} variant='contained'>
+          Đăng nhập
         </ButtonStyled>
       </DivideBox>
 
@@ -63,7 +88,7 @@ const LoginForm:React.FC = () => {
 
       <Link to="/home">
         <Typography align='center'>
-          Create account
+          Tạo tài khoản mới
         </Typography>
       </Link>
     </Box>

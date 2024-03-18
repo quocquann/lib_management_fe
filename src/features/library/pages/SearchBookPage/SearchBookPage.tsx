@@ -6,6 +6,9 @@ import BookList from '../../components/BookList/BookList'
 import ListFilter from '../../components/ListFilter/ListFilter'
 import CategoryLabel from '../../components/CategoryLabel/CategoryLabel'
 import { bookList } from '../../../../shared/mocks/bookList'
+import authors from '../../../../shared/mocks/author'
+import genres from '../../../../shared/mocks/genre'
+import publishers from '../../../../shared/mocks/publisher'
 
 const WrapBox = styled(Box)({
     display: 'flex',
@@ -29,6 +32,7 @@ const SearchBookPage:React.FC = () => {
         <Container>
             <WrapBox>
                 <LeftBox>
+                    <CategoryLabel text='Tìm kiếm'/>
                     <Box marginBottom={4}>
                         <TextField
                             fullWidth
@@ -42,19 +46,22 @@ const SearchBookPage:React.FC = () => {
                             }}  
                         />
                     </Box>
-                    <CategoryLabel text='Author'/>
+                    <CategoryLabel text='Tác giả'/>
                     <Box marginBottom={4}>
-                        <ListFilter/>
+                        <ListFilter items={authors}/>
+                        {/* TODO: change item */}
                     </Box>
                     
-                    <CategoryLabel text='Genre'/>
+                    <CategoryLabel text='Thể loại'/>
 
                     <Box marginBottom={4}>
-                        <ListFilter/>
+                        <ListFilter items={genres}/>
+                        {/* TODO: change item */}
                     </Box>
 
-                    <CategoryLabel text='Publisher'/>
-                    <ListFilter/>
+                    <CategoryLabel text='NXB'/>
+                    <ListFilter items={publishers}/>
+                    {/* TODO: change item */}
                 </LeftBox>
                 <RightBox>  
                     <BookList full={false} books={bookList}/>

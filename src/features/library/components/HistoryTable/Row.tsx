@@ -45,7 +45,7 @@ const Row:React.FC<IRowProps> = (props) => {
 
         <TableRow>
             <TableCell colSpan={12}>
-                <Collapse in={isOpen} unmountOnExit>
+                <Collapse in={isOpen}>
                     <Box marginBottom={2}>
                         <Typography>
                             Chi tiết
