@@ -1,10 +1,11 @@
-import {Typography, Box, Paper, Rating, IconButton } from '@mui/material'
+import {Typography, Box, Paper, Rating, IconButton, Link } from '@mui/material'
 import {styled} from '@mui/material/styles'
 import React from 'react'
 import AddIcon from '@mui/icons-material/Add';
 import { IBook } from '../../models/interface';
 import { useAppDispatch } from '../../../../redux/hook';
 import { librarySlice } from '../../services/states/librarySlice';
+import {Link as RouterLink} from 'react-router-dom'
 
 const PaperStyled = styled(Paper)({
     objectFit: 'fill',
@@ -64,7 +65,6 @@ const BookItem: React.FC<IBookItemProps> = ({book}) => {
     dispatch(librarySlice.actions.addBookToBasket(book))
   }  
 
-
   return (
     <Box component='div'>
         <ImageBox component='div'>
@@ -79,7 +79,9 @@ const BookItem: React.FC<IBookItemProps> = ({book}) => {
                 <AddIcon/>
             </ButtonStyled>
         </ImageBox>
-        <TypographyStyled variant='h6' component='h6'>{book.title}</TypographyStyled>
+        <Link component={RouterLink} to={`/home/detail/${book.id}`}>
+            <TypographyStyled variant='h6' component='h6'>{book.title}</TypographyStyled>
+        </Link>
         <Typography variant='subtitle2' component='p'>{book.genre}</Typography>
         <Rating size='small' readOnly value={4}/>
     </Box>

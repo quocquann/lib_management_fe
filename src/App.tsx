@@ -25,7 +25,7 @@ function App() {
             
             <Route path="home" element={<HomeLayout/>}>
               <Route path="" element={<HomePage/>}/>
-              <Route path="detail" element={<BookDetailPage/>}/>  
+              <Route path="detail/:id" element={<BookDetailPage/>}/>  
               <Route path="borrow" element={<BorrowPage/>}/>
               <Route path="search" element={<SearchBookPage/>}/>
               <Route path="history" element={<HistoryPage/>}/>

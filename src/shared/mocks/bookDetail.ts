@@ -8,5 +8,6 @@ export const book: IBook = {
     "image": "https://bizweb.dktcdn.net/thumb/large/100/364/248/products/51b7n0ouu6l.jpg?v=1679410720480",
     "author": "Ana Huang",
     "genre": "Fiction",
-    "publisher": ''
+    "publisher": '',
+    "describe": ''
 }

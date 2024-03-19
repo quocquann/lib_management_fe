@@ -3,6 +3,7 @@ export interface IBook {
     title: string
     image: string
     isbn: string
+    describe: string
     author: string
     genre: string
     publisher: string   

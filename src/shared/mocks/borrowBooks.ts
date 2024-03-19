@@ -9,7 +9,8 @@ export const borrowBooks: IBook[] = [
         "image": "https://bizweb.dktcdn.net/thumb/large/100/364/248/products/71m5lnoshhl.jpg?v=1691213644093",
         "author": "Adam Silvera",
         "genre": "Fiction",
-        "publisher": ""
+        "publisher": "",
+        "describe": ''
         },
         {
         "id": 65,
@@ -18,7 +19,8 @@ export const borrowBooks: IBook[] = [
         "image": "https://bizweb.dktcdn.net/thumb/large/100/364/248/products/71gjpx25-plus-el.jpg?v=1679411391207",
         "author": "Adam Silvera",
         "genre": "Fiction",
-        "publisher": ""
+        "publisher": "",
+        "describe": ''
         },
         {
         "id": 61,
@@ -27,6 +29,7 @@ export const borrowBooks: IBook[] = [
         "image": "https://bizweb.dktcdn.net/thumb/large/100/364/248/products/51b7n0ouu6l.jpg?v=1679410720480",
         "author": "Ana Huang",
         "genre": "Fiction",
-        "publisher": ''
+        "publisher": '',
+        "describe": ''
         },
 ]
