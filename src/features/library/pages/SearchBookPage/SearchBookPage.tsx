@@ -5,10 +5,9 @@ import React from 'react'
 import BookList from '../../components/BookList/BookList'
 import ListFilter from '../../components/ListFilter/ListFilter'
 import CategoryLabel from '../../components/CategoryLabel/CategoryLabel'
-import { bookList } from '../../../../shared/mocks/bookList'
-import authors from '../../../../shared/mocks/author'
-import genres from '../../../../shared/mocks/genre'
-import publishers from '../../../../shared/mocks/publisher'
+import { getAuthorsThunk, getBooksThunk, getGenresThunk, getPublishersThunk } from '../../services/states/action'
+import { useAppDispatch, useAppSelector } from '../../../../redux/hook'
+import { authorsSelector, bookListHomePageSelector, genresSelector, publishersSelector } from '../../services/states/selector'
 
 const WrapBox = styled(Box)({
     display: 'flex',
@@ -26,6 +25,29 @@ const RightBox = styled(Box)({
 
 
 const SearchBookPage:React.FC = () => {
+
+  const dispatch = useAppDispatch()  
+
+  const authors = useAppSelector(authorsSelector)
+  const genres = useAppSelector(genresSelector)
+  const publishers = useAppSelector(publishersSelector)
+  const books = useAppSelector(bookListHomePageSelector)
+
+  React.useEffect(() => {
+    dispatch(getBooksThunk())
+  },[dispatch])
+
+  React.useEffect(() => {
+    dispatch(getAuthorsThunk())
+  },[dispatch])
+
+  React.useEffect(() => {
+    dispatch(getGenresThunk())
+  },[dispatch])
+
+  React.useEffect(() => {
+    dispatch(getPublishersThunk())
+  }, [dispatch])
 
   return (
     <Box marginTop={20}>
@@ -49,22 +71,19 @@ const SearchBookPage:React.FC = () => {
                     <CategoryLabel text='Tác giả'/>
                     <Box marginBottom={4}>
                         <ListFilter items={authors}/>
-                        {/* TODO: change item */}
                     </Box>
                     
                     <CategoryLabel text='Thể loại'/>
 
                     <Box marginBottom={4}>
                         <ListFilter items={genres}/>
-                        {/* TODO: change item */}
                     </Box>
 
                     <CategoryLabel text='NXB'/>
                     <ListFilter items={publishers}/>
-                    {/* TODO: change item */}
                 </LeftBox>
                 <RightBox>  
-                    <BookList full={false} books={bookList}/>
+                    <BookList full={false} books={books}/>
                     <Pagination count={10} shape="rounded" />
                 </RightBox>
             </WrapBox>

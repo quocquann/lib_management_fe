@@ -19,3 +19,30 @@ export const getBookByIdThunk = createAsyncThunk('book/getBookById', async (id: 
         throw e
     }
 })
+
+export const getAuthorsThunk = createAsyncThunk('author/getAuthors', async () => {
+    try {
+        const data = await apiRequest.getAuthors()
+        return data
+    } catch (e){
+        throw e
+    }
+})
+
+export const getGenresThunk = createAsyncThunk('genre/getGenres', async () => {
+    try {
+        const data = apiRequest.getGenres()
+        return data
+    } catch (e) {
+        throw e
+    }
+})
+
+export const getPublishersThunk = createAsyncThunk('publisher/getPublishers', async () => {
+    try {   
+        const data = apiRequest.getPublishers()
+        return data
+    } catch (e) {
+        throw e
+    }
+})

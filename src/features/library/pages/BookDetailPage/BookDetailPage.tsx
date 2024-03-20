@@ -94,7 +94,7 @@ const BookDetailPage: React.FC = () => {
                     <PaperStyled 
                         component='img'
                         square
-                        src={book.image}
+                        src={`${process.env.REACT_APP_BASE_URL}static/images${book.image}`}
                     />
                 )}
                 {isDetailLoading ? (<SkeletonStyled variant="rectangular" />): (

@@ -1,12 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { IBook } from "../../models/interface";
-import { getBookByIdThunk, getBooksThunk } from "./action";
+import { IAuthor, IBook, IGenre, IPublisher } from "../../models/interface";
+import { getAuthorsThunk, getBookByIdThunk, getBooksThunk, getGenresThunk, getPublishersThunk } from "./action";
 
 export interface ILibraryState {
     booksInBasket: IBook[]
     bookDetail: IBook
     bookListHomePage: IBook[],
-    isDetailLoading: boolean
+    isDetailLoading: boolean,
+    authors: IAuthor[],
+    genres: IGenre[],
+    publishers: IPublisher[]
 }
 
 export const librarySlice = createSlice({
@@ -15,7 +18,10 @@ export const librarySlice = createSlice({
         booksInBasket: [],
         bookDetail: {} as IBook,
         bookListHomePage: [],
-        isDetailLoading: false
+        isDetailLoading: false,
+        authors: [],
+        genres: [],
+        publishers: []
     } as ILibraryState,
     reducers: {
         addBookToBasket: (state, action) => {
@@ -47,6 +53,15 @@ export const librarySlice = createSlice({
         .addCase(getBookByIdThunk.rejected, (state, action) => {
             state.isDetailLoading = false
             console.log(action.error)
+        })
+        .addCase(getAuthorsThunk.fulfilled, (state, action) => {
+            state.authors = action.payload
+        })
+        .addCase(getGenresThunk.fulfilled, (state, action) => {
+            state.genres = action.payload
+        })
+        .addCase(getPublishersThunk.fulfilled, (state, action) => {
+            state.publishers = action.payload
         })
     }
 })

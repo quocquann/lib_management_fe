@@ -1,5 +1,5 @@
 import { instance } from '../../../../axios/config'
-import { IBook } from '../../models/interface'
+import { IAuthor, IBook, IGenre } from '../../models/interface'
 
 const getBooks = async (): Promise<IBook[]> => {
     try { 
@@ -19,8 +19,38 @@ const getBookById = async (id: string): Promise<IBook> => {
     }
 }
 
+const getAuthors = async (): Promise<IAuthor[]> => {
+    try {
+        const res = await instance.get('authors/')
+        return res.data
+    } catch(e) {
+        throw e
+    }
+}
+
+const getGenres = async (): Promise<IGenre[]> => {
+    try {
+        const res = await instance.get('genres/')
+        return res.data
+    } catch (e) {
+        throw e
+    }
+}
+
+const getPublishers = async () : Promise<IAuthor[]> => {
+    try {
+        const res = await instance.get('publishers/')
+        return res.data
+    } catch (e) {
+        throw e
+    }
+}
+
 const apiRequest = {
     getBooks,
-    getBookById
+    getBookById,
+    getAuthors,
+    getGenres,
+    getPublishers
 }
 export default apiRequest
