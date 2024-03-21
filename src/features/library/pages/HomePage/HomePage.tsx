@@ -11,7 +11,7 @@ const HomePage: React.FC = () => {
   const dispatch = useAppDispatch()
 
   React.useEffect(() => {
-    dispatch(getBooksThunk())
+    dispatch(getBooksThunk({}))
   },[dispatch])
 
   const bookList = useAppSelector(bookListHomePageSelector)

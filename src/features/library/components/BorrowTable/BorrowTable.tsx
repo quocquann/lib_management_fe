@@ -60,7 +60,7 @@ const BorrowTable:React.FC<IBorrowTable> = ({readOnly=false, books}) => {
                         <TableCell>
                             <ImageStyled 
                                 component='img'
-                                src={book.image}
+                                src={`${process.env.REACT_APP_BASE_URL}static/images${book.image}`}
                             />
                         </TableCell>
                         <TableCell>

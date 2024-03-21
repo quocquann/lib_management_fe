@@ -1,10 +1,23 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import apiRequest from "../api/apiRequest";
 
+interface IGetBooksThunkParam {
+    page?:number,
+    search?:string
+    author?:number,
+    genre?:number,
+    publisher?:number
+}
 
-export const getBooksThunk = createAsyncThunk('book/getBooks', async () => {
+export const getBooksThunk = createAsyncThunk('book/getBooks', async ({
+    page,
+    search,
+    author,
+    genre,
+    publisher
+}:IGetBooksThunkParam) => {
     try {
-        const data = await apiRequest.getBooks()
+        const data = await apiRequest.getBooks(page, search, author, genre, publisher)
         return data
     }catch(e) {
         throw e

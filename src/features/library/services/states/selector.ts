@@ -14,3 +14,5 @@ export const isDetailLoadingSelector = (state: IState) => state.library.isDetail
 export const authorsSelector = (state:IState) => state.library.authors
 export const genresSelector = (state:IState) => state.library.genres
 export const publishersSelector = (state:IState) => state.library.publishers
+export const searchStringSelector = (state: IState) => state.library.searchString
+export const listTitleSelector = (state: IState) => state.library.listTitle

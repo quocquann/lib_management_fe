@@ -9,7 +9,9 @@ export interface ILibraryState {
     isDetailLoading: boolean,
     authors: IAuthor[],
     genres: IGenre[],
-    publishers: IPublisher[]
+    publishers: IPublisher[],
+    searchString: string,
+    listTitle: string
 }
 
 export const librarySlice = createSlice({
@@ -21,7 +23,9 @@ export const librarySlice = createSlice({
         isDetailLoading: false,
         authors: [],
         genres: [],
-        publishers: []
+        publishers: [],
+        searchString: "",
+        listTitle: "Tất cả"
     } as ILibraryState,
     reducers: {
         addBookToBasket: (state, action) => {
@@ -32,6 +36,12 @@ export const librarySlice = createSlice({
         },
         removeBookToBasket: (state, action) => {
             state.booksInBasket = state.booksInBasket.filter(book => book.id !== action.payload)
+        },
+        setListTitle: (state, action) => {
+            state.listTitle = action.payload
+        },
+        setSearchString: (state, action) => {
+            state.searchString = action.payload
         }
     },
     extraReducers: builder => {
@@ -39,8 +49,7 @@ export const librarySlice = createSlice({
         .addCase(getBooksThunk.fulfilled, (state, action) => {
             state.bookListHomePage = action.payload
         })
-        .addCase(getBooksThunk.rejected, (state, action) => {
-            
+        .addCase(getBooksThunk.rejected, (state, action) => {            
             console.log(action.error)
         })
         .addCase(getBookByIdThunk.fulfilled, (state, action) => {
