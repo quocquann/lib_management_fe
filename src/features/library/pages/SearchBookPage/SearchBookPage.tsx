@@ -53,28 +53,41 @@ const SearchBookPage:React.FC = () => {
 
   const debounceValue = useDebounce(searchString)
 
-  React.useEffect(() => {
-    dispatch(librarySlice.actions.setListTitle("Tất cả"))
-    dispatch(getBooksThunk({
-        page,
-        search: debounceValue
-    }))
-  },[dispatch, page, debounceValue])
+//   React.useEffect(() => {
+//     dispatch(librarySlice.actions.setListTitle("Tất cả"))
+//     dispatch(getBooksThunk({
+//         page,
+//         search: debounceValue
+//     }))
+//   },[dispatch, page, debounceValue])
 
-  const { data: authors} = useQuery({
+ 
+
+  const { data: authorsData, refetch: authorRefetch} = useQuery({
     queryKey: ['authors'],  
     queryFn: apiRequest.getAuthors,
   })
 
-  const { data: genres } = useQuery({
+  const { data: genresData , refetch: genreRefetch} = useQuery({
     queryKey: ['genres'],
     queryFn: apiRequest.getGenres
   })
 
-  const { data: publishers } = useQuery({
+  const { data: publishersData, refetch: publisherRefetch } = useQuery({
     queryKey: ['publishers'],
     queryFn: apiRequest.getPublishers
   })
+
+  const authors = authorsData?.results as IAuthor[]
+  const genres = genresData?.results as IGenre[]
+  const publishers = publishersData?.results as IPublisher[]
+
+  console.log("from search: ", authors)
+
+  authorRefetch()
+  genreRefetch()
+  publisherRefetch()
+
 
   const handlePageChange = (event: React.ChangeEvent<unknown>, page: number) => {
     setPage(page)
@@ -120,17 +133,17 @@ const SearchBookPage:React.FC = () => {
                     </Box>
                     <CategoryLabel text='Tác giả'/>
                     <Box marginBottom={4}>
-                        <ListFilter type='author' items={authors?.results as IAuthor[]}/>
+                        <ListFilter type='author' items={authors}/>
                     </Box>
                     
                     <CategoryLabel text='Thể loại'/>
 
                     <Box marginBottom={4}>
-                        <ListFilter type="genre" items={genres?.results as IGenre[]}/>
+                        <ListFilter type="genre" items={genres}/>
                     </Box>
 
                     <CategoryLabel text='NXB'/>
-                    <ListFilter type="publisher" items={publishers?.results as IPublisher[]}/>
+                    <ListFilter type="publisher" items={publishers}/>
                 </LeftBox>
                 <RightBox>  
                     <CategoryLabel text={listTitle}/>

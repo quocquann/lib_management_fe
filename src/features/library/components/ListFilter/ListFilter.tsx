@@ -30,6 +30,7 @@ interface IListFilterProps {
 
 
 const ListFilter: React.FC<IListFilterProps> = ({items, type}) => {
+  console.log(items)
 
   const dispatch = useAppDispatch()
 

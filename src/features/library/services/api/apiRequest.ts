@@ -40,6 +40,7 @@ const getAuthors = async (): Promise<IListFilterResponse> => {
 const getGenres = async (): Promise<IListFilterResponse> => {
     try {
         const res = await instance.get('genres/')
+        console.log(res.data)
         return res.data
     } catch (e) {
         throw e
@@ -49,6 +50,7 @@ const getGenres = async (): Promise<IListFilterResponse> => {
 const getPublishers = async () : Promise<IListFilterResponse> => {
     try {
         const res = await instance.get('publishers/')
+        console.log(res.data)
         return res.data
     } catch (e) {
         throw e
