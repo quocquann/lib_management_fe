@@ -9,7 +9,7 @@ import {Link as RouterLink} from 'react-router-dom'
 
 const PaperStyled = styled(Paper)({
     objectFit: 'fill',
-    minHeight: 318
+    minHeight: 318,
 }) as typeof Paper
 
 const TypographyStyled = styled(Typography)(({theme}) => ({
@@ -53,6 +53,10 @@ const ButtonStyled = styled(IconButton)(({theme}) => ({
     }
 })) as typeof IconButton
 
+const WrapperBox = styled(Box)({
+    maxWidth: 178
+}) as typeof Box
+
 interface IBookItemProps {
     book: IBook
 }
@@ -66,7 +70,7 @@ const BookItem: React.FC<IBookItemProps> = ({book}) => {
   }  
 
   return (
-    <Box component='div'>
+    <WrapperBox component='div'>
         <ImageBox component='div'>
             <PaperStyled
                 component='img' 
@@ -84,7 +88,7 @@ const BookItem: React.FC<IBookItemProps> = ({book}) => {
         </Link>
         <Typography variant='subtitle2' component='p'>{book.genre}</Typography>
         <Rating size='small' readOnly value={4}/>
-    </Box>
+    </WrapperBox>
   )
 }
 

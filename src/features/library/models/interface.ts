@@ -10,16 +10,23 @@ export interface IBook {
 }
 
 export interface IAuthor {
-    id: number,
+    id: number
     name: string
 }
 
 export interface IGenre {
-    id: number,
+    id: number
     name: string
 }
 
 export interface IPublisher {
-    id: number,
+    id: number
     name: string
+}
+
+export interface IBookResponse {
+    count: number
+    next: string | null
+    previous: string | null
+    results: IBook[]
 }

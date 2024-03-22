@@ -5,13 +5,15 @@ import { getAuthorsThunk, getBookByIdThunk, getBooksThunk, getGenresThunk, getPu
 export interface ILibraryState {
     booksInBasket: IBook[]
     bookDetail: IBook
-    bookListHomePage: IBook[],
+    allBooks: IBook[],
     isDetailLoading: boolean,
     authors: IAuthor[],
     genres: IGenre[],
     publishers: IPublisher[],
     searchString: string,
-    listTitle: string
+    listTitle: string,
+    isSearchBookLoading: boolean,
+    numBook: number
 }
 
 export const librarySlice = createSlice({
@@ -19,13 +21,15 @@ export const librarySlice = createSlice({
     initialState: {
         booksInBasket: [],
         bookDetail: {} as IBook,
-        bookListHomePage: [],
+        allBooks: [],
         isDetailLoading: false,
         authors: [],
         genres: [],
         publishers: [],
         searchString: "",
-        listTitle: "Tất cả"
+        listTitle: "Tất cả",
+        isSearchBookLoading: false,
+        numBook: 0
     } as ILibraryState,
     reducers: {
         addBookToBasket: (state, action) => {
@@ -46,11 +50,17 @@ export const librarySlice = createSlice({
     },
     extraReducers: builder => {
         builder
+        .addCase(getBooksThunk.pending, (state) => {
+            state.isSearchBookLoading = true
+        })
         .addCase(getBooksThunk.fulfilled, (state, action) => {
-            state.bookListHomePage = action.payload
+            state.allBooks = action.payload.results
+            state.numBook = action.payload.count
+            state.isSearchBookLoading = false
         })
         .addCase(getBooksThunk.rejected, (state, action) => {            
             console.log(action.error)
+            state.isSearchBookLoading = false
         })
         .addCase(getBookByIdThunk.fulfilled, (state, action) => {
             state.bookDetail = action.payload

@@ -1,7 +1,7 @@
 import { instance } from '../../../../axios/config'
-import { IAuthor, IBook, IGenre } from '../../models/interface'
+import { IAuthor, IBook, IBookResponse, IGenre } from '../../models/interface'
 
-const getBooks = async (page?:number, search?:string, author?:number, genre?: number, publisher?:number): Promise<IBook[]> => {
+const getBooks = async (page?:number, search?:string, author?:number, genre?: number, publisher?:number): Promise<IBookResponse> => {
     try { 
         const res = await instance.get('books/', {
             params: {
@@ -12,7 +12,7 @@ const getBooks = async (page?:number, search?:string, author?:number, genre?: nu
                 publisher
             }
         })
-        return res.data.results
+        return res.data
     } catch(e) {
         throw e
     }

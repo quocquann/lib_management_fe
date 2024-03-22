@@ -3,7 +3,7 @@ import BookList from '../../components/BookList/BookList'
 import { Box, Container } from '@mui/material'
 import CategoryLabel from '../../components/CategoryLabel/CategoryLabel'
 import { useAppDispatch, useAppSelector } from '../../../../redux/hook'
-import { bookListHomePageSelector } from '../../services/states/selector'
+import { allBooksSelector } from '../../services/states/selector'
 import { getBooksThunk } from '../../services/states/action'
 
 const HomePage: React.FC = () => {
@@ -14,7 +14,7 @@ const HomePage: React.FC = () => {
     dispatch(getBooksThunk({}))
   },[dispatch])
 
-  const bookList = useAppSelector(bookListHomePageSelector)
+  const bookList = useAppSelector(allBooksSelector)
 
   return (
     <Box marginTop={20}>

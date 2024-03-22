@@ -1,6 +1,6 @@
 import React from 'react'
 
-const useDebounce = (value:string, delay:number) => {
+const useDebounce = (value: string, delay: number = 800) => {
     const [debounceValue, setDebounceValue] = React.useState(value)
 
     React.useEffect(() => {
@@ -11,7 +11,8 @@ const useDebounce = (value:string, delay:number) => {
         return () => {
             clearTimeout(timerId)
         }
-    })
+
+    },[value, delay])
 
     return debounceValue
 }

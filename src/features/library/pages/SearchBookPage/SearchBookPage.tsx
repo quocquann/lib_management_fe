@@ -1,5 +1,5 @@
 import { Search } from '@mui/icons-material'
-import { Box, Button, Container, InputAdornment, Pagination, TextField } from '@mui/material'
+import { Box, Button, CircularProgress, Container, InputAdornment, Pagination, TextField } from '@mui/material'
 import {styled} from '@mui/material/styles'
 import React from 'react'
 import BookList from '../../components/BookList/BookList'
@@ -7,8 +7,9 @@ import ListFilter from '../../components/ListFilter/ListFilter'
 import CategoryLabel from '../../components/CategoryLabel/CategoryLabel'
 import { getAuthorsThunk, getBooksThunk, getGenresThunk, getPublishersThunk } from '../../services/states/action'
 import { useAppDispatch, useAppSelector } from '../../../../redux/hook'
-import { authorsSelector, bookListHomePageSelector, genresSelector, listTitleSelector, publishersSelector, searchStringSelector } from '../../services/states/selector'
+import { allBooksSelector, authorsSelector, genresSelector, isSearchBookLoadingSelector, listTitleSelector, numBookSelector, publishersSelector, searchStringSelector } from '../../services/states/selector'
 import { librarySlice } from '../../services/states/librarySlice'
+import useDebounce from '../../../../shared/hooks/useDebounce'
 
 const WrapBox = styled(Box)({
     display: 'flex',
@@ -24,28 +25,41 @@ const RightBox = styled(Box)({
     flex: 8
 })
 
+const LoadingBox = styled(Box)({
+    width: '100%',
+    minHeight: 300,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
+})
+
 
 const SearchBookPage:React.FC = () => {
+
+  const PAGE_SIZE = 20  
 
   const dispatch = useAppDispatch()  
 
   const [page, setPage] = React.useState(1)
 
-
   const authors = useAppSelector(authorsSelector)
   const genres = useAppSelector(genresSelector)
   const publishers = useAppSelector(publishersSelector)
-  const books = useAppSelector(bookListHomePageSelector)
+  const books = useAppSelector(allBooksSelector)
   const searchString = useAppSelector(searchStringSelector)
   const listTitle = useAppSelector(listTitleSelector)
+  const isSearchBookLoading = useAppSelector(isSearchBookLoadingSelector)
+  const numBooks = useAppSelector(numBookSelector)
 
+  const debounceValue = useDebounce(searchString)
 
   React.useEffect(() => {
     dispatch(librarySlice.actions.setListTitle("Tất cả"))
     dispatch(getBooksThunk({
-        page
+        page,
+        search: debounceValue
     }))
-  },[dispatch, page])
+  },[dispatch, page, debounceValue])
 
   React.useEffect(() => {
     dispatch(getAuthorsThunk())
@@ -67,9 +81,6 @@ const SearchBookPage:React.FC = () => {
     const newSearchString = event.target.value
     dispatch(librarySlice.actions.setSearchString(newSearchString))
     dispatch(librarySlice.actions.setListTitle("Tất cả"))
-    dispatch(getBooksThunk({
-        search: newSearchString
-    }))
   }
 
   const handleAllBookButtonClick = () => {
@@ -120,8 +131,20 @@ const SearchBookPage:React.FC = () => {
                 </LeftBox>
                 <RightBox>  
                     <CategoryLabel text={listTitle}/>
-                    <BookList full={false} books={books}/>
-                    <Pagination onChange={handlePageChange} page={page} count={10} shape="rounded" />
+                    { isSearchBookLoading ?
+                        (
+                        <LoadingBox>
+                            <CircularProgress/>
+                        </LoadingBox>
+                        ) : (
+                            <>
+                                <BookList full={false} books={books}/>
+                                <Box display={'flex'} justifyContent={'flex-end'}>
+                                    <Pagination onChange={handlePageChange} page={page} count={Math.ceil(numBooks/PAGE_SIZE)} shape="rounded" />
+                                </Box>
+                            </>
+                        )
+                    }
                 </RightBox>
             </WrapBox>
         </Container>
