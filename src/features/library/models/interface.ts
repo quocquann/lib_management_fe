@@ -30,3 +30,10 @@ export interface IBookResponse {
     previous: string | null
     results: IBook[]
 }
+
+export interface IListFilterResponse {
+    count: number
+    next: string | null
+    previous: string | null
+    results: IGenre[] | IAuthor[] | IPublisher[]
+}

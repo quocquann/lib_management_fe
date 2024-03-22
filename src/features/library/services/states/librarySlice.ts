@@ -74,13 +74,13 @@ export const librarySlice = createSlice({
             console.log(action.error)
         })
         .addCase(getAuthorsThunk.fulfilled, (state, action) => {
-            state.authors = action.payload
+            state.authors = action.payload.results
         })
         .addCase(getGenresThunk.fulfilled, (state, action) => {
-            state.genres = action.payload
+            state.genres = action.payload.results
         })
         .addCase(getPublishersThunk.fulfilled, (state, action) => {
-            state.publishers = action.payload
+            state.publishers = action.payload.results
         })
     }
 })

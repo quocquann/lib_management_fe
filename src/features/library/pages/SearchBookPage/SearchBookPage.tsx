@@ -10,6 +10,9 @@ import { useAppDispatch, useAppSelector } from '../../../../redux/hook'
 import { allBooksSelector, authorsSelector, genresSelector, isSearchBookLoadingSelector, listTitleSelector, numBookSelector, publishersSelector, searchStringSelector } from '../../services/states/selector'
 import { librarySlice } from '../../services/states/librarySlice'
 import useDebounce from '../../../../shared/hooks/useDebounce'
+import { useQuery } from '@tanstack/react-query'
+import apiRequest from '../../services/api/apiRequest'
+import { IAuthor, IGenre, IPublisher } from '../../models/interface'
 
 const WrapBox = styled(Box)({
     display: 'flex',
@@ -42,9 +45,6 @@ const SearchBookPage:React.FC = () => {
 
   const [page, setPage] = React.useState(1)
 
-  const authors = useAppSelector(authorsSelector)
-  const genres = useAppSelector(genresSelector)
-  const publishers = useAppSelector(publishersSelector)
   const books = useAppSelector(allBooksSelector)
   const searchString = useAppSelector(searchStringSelector)
   const listTitle = useAppSelector(listTitleSelector)
@@ -61,17 +61,20 @@ const SearchBookPage:React.FC = () => {
     }))
   },[dispatch, page, debounceValue])
 
-  React.useEffect(() => {
-    dispatch(getAuthorsThunk())
-  },[dispatch])
+  const { data: authors} = useQuery({
+    queryKey: ['authors'],  
+    queryFn: apiRequest.getAuthors,
+  })
 
-  React.useEffect(() => {
-    dispatch(getGenresThunk())
-  },[dispatch])
+  const { data: genres } = useQuery({
+    queryKey: ['genres'],
+    queryFn: apiRequest.getGenres
+  })
 
-  React.useEffect(() => {
-    dispatch(getPublishersThunk())
-  }, [dispatch])
+  const { data: publishers } = useQuery({
+    queryKey: ['publishers'],
+    queryFn: apiRequest.getPublishers
+  })
 
   const handlePageChange = (event: React.ChangeEvent<unknown>, page: number) => {
     setPage(page)
@@ -117,17 +120,17 @@ const SearchBookPage:React.FC = () => {
                     </Box>
                     <CategoryLabel text='Tác giả'/>
                     <Box marginBottom={4}>
-                        <ListFilter type='author' items={authors}/>
+                        <ListFilter type='author' items={authors?.results as IAuthor[]}/>
                     </Box>
                     
                     <CategoryLabel text='Thể loại'/>
 
                     <Box marginBottom={4}>
-                        <ListFilter type="genre" items={genres}/>
+                        <ListFilter type="genre" items={genres?.results as IGenre[]}/>
                     </Box>
 
                     <CategoryLabel text='NXB'/>
-                    <ListFilter type="publisher" items={publishers}/>
+                    <ListFilter type="publisher" items={publishers?.results as IPublisher[]}/>
                 </LeftBox>
                 <RightBox>  
                     <CategoryLabel text={listTitle}/>
