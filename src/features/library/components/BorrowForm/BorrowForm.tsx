@@ -5,9 +5,10 @@ import {styled} from '@mui/material/styles'
 import dayjs from 'dayjs'
 import React from 'react'
 import { showAlert, ETypeAlert } from '../../../../shared/helpers/alert';
-import { useAppSelector } from '../../../../redux/hook';
+import { useAppDispatch, useAppSelector } from '../../../../redux/hook';
 import { booksInBasketSelector,} from '../../services/states/selector';
 import formatDate from '../../../../shared/helpers/formatDate';
+import { createRequestThunk } from '../../services/states/action';
 
 
 const BoxStyled = styled(Box)({
@@ -27,6 +28,8 @@ const BorrowForm:React.FC = () => {
 
   const [startDate, setStartDate] = React.useState<dayjs.Dayjs | null>(null)
   const [endDate, setEndDate] = React.useState<dayjs.Dayjs | null>(null)
+
+  const dispatch = useAppDispatch()
 
   const booksInBasket = useAppSelector(booksInBasketSelector)
 
@@ -50,7 +53,13 @@ const BorrowForm:React.FC = () => {
             start,
             end
         })
-        //TODO: borrow book
+        const book_ids = booksInBasket.map(book => book.id)
+        dispatch(createRequestThunk({
+            start_date: start,
+            end_date: end,
+            type: 'borrow',
+            book_ids: book_ids
+        }))
     }
   }
 

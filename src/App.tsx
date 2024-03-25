@@ -12,6 +12,8 @@ import { Provider } from 'react-redux';
 import { store } from './redux/store';
 import { ToastContainer } from 'react-toastify';
 import CalendarPage from './features/library/pages/CalendarPage/CalendarPage';
+import RequestPage from './features/library/pages/RequestPage/RequestPage';
+
 
 function App() {
   return <>
@@ -30,6 +32,7 @@ function App() {
               <Route path="search" element={<SearchBookPage/>}/>
               <Route path="history" element={<HistoryPage/>}/>
               <Route path="calendar" element={<CalendarPage/>}/>
+              <Route path="request" element={<RequestPage/>}/>
             </Route>
           </Routes>
       </BrowserRouter>

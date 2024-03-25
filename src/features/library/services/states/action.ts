@@ -9,6 +9,13 @@ interface IGetBooksThunkParam {
     publisher?:number
 }
 
+interface ICreaterequestThunkData {
+    start_date: string
+    end_date: string
+    type: string
+    book_ids: number[]
+}
+
 export const getBooksThunk = createAsyncThunk('book/getBooks', async ({
     page,
     search,
@@ -56,6 +63,34 @@ export const getPublishersThunk = createAsyncThunk('publisher/getPublishers', as
         const data = apiRequest.getPublishers()
         return data
     } catch (e) {
+        throw e
+    }
+})
+
+export const getRequestsThunk = createAsyncThunk('requests/getRequests', async () => {
+    try {
+        const data = apiRequest.getRequest()
+        return data
+    }catch(e) {
+        throw e
+    }
+})
+
+export const createRequestThunk = createAsyncThunk('request/createRequests', async ({
+    start_date,
+    end_date,
+    type,
+    book_ids
+}:ICreaterequestThunkData) => {
+    try {
+        const data = apiRequest.createRequest(
+            start_date,
+            end_date,
+            type,
+            book_ids
+        )
+        return data
+    } catch(e) {
         throw e
     }
 })

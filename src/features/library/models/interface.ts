@@ -30,3 +30,13 @@ export interface IBookResponse {
     previous: string | null
     results: IBook[]
 }
+
+export interface IRequest {
+    id: number
+    start_date: string
+    end_date: string
+    status: string
+    type: string
+    reject_reason: string
+    books: IBook[]
+}

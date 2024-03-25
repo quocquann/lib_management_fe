@@ -18,3 +18,4 @@ export const searchStringSelector = (state: IState) => state.library.searchStrin
 export const listTitleSelector = (state: IState) => state.library.listTitle
 export const isSearchBookLoadingSelector = (state: IState) => state.library.isSearchBookLoading
 export const numBookSelector = (state: IState) => state.library.numBook
+export const requestsSeletor = (state: IState) => state.library.requests

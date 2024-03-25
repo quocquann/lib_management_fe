@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { IAuthor, IBook, IGenre, IPublisher } from "../../models/interface";
-import { getAuthorsThunk, getBookByIdThunk, getBooksThunk, getGenresThunk, getPublishersThunk } from "./action";
+import { IAuthor, IBook, IGenre, IPublisher, IRequest } from "../../models/interface";
+import { createRequestThunk, getAuthorsThunk, getBookByIdThunk, getBooksThunk, getGenresThunk, getPublishersThunk, getRequestsThunk } from "./action";
 
 export interface ILibraryState {
     booksInBasket: IBook[]
@@ -13,7 +13,8 @@ export interface ILibraryState {
     searchString: string,
     listTitle: string,
     isSearchBookLoading: boolean,
-    numBook: number
+    numBook: number,
+    requests: IRequest[]
 }
 
 export const librarySlice = createSlice({
@@ -29,7 +30,8 @@ export const librarySlice = createSlice({
         searchString: "",
         listTitle: "Tất cả",
         isSearchBookLoading: false,
-        numBook: 0
+        numBook: 0,
+        requests: []
     } as ILibraryState,
     reducers: {
         addBookToBasket: (state, action) => {
@@ -81,6 +83,20 @@ export const librarySlice = createSlice({
         })
         .addCase(getPublishersThunk.fulfilled, (state, action) => {
             state.publishers = action.payload
+        })
+        .addCase(createRequestThunk.pending, (state) => {
+            //TODO:
+        })
+        .addCase(createRequestThunk.fulfilled, (state, action) => {
+            //TODO:
+            console.log(action)
+        })
+        .addCase(createRequestThunk.rejected, (state, action) => {
+            //TODO:
+        })
+        .addCase(getRequestsThunk.fulfilled, (state, action) => {
+            state.requests = action.payload
+
         })
     }
 })
