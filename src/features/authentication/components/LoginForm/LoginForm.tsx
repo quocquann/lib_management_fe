@@ -2,10 +2,9 @@ import { Box, Button, IconButton, InputAdornment, Paper, TextField, Typography, 
 import { Visibility, VisibilityOff} from '@mui/icons-material'
 import {styled} from '@mui/material/styles'
 import React from 'react'
-import { Link } from 'react-router-dom'
-import { useAppDispatch, useAppSelector } from '../../../../redux/hook'
-import { emailSelector, passwordSelector } from '../../services/states/selectors'
-import { authenticationSlice } from '../../services/states/authenticationSlice'
+import { Link, useNavigate } from 'react-router-dom'
+import { useAppDispatch } from '../../../../redux/hook'
+import { loginThunk } from '../../services/states/action'
 
 const DivideBox = styled(Box)({
   marginBottom: 30
@@ -22,27 +21,31 @@ const ButtonStyled = styled(Button)({
 const LoginForm:React.FC = () => {
 
   const [isShowPassword, setIsShowPassword] = React.useState(false)
-  
-  const dispatch = useAppDispatch()
+  const [email, setEmail] = React.useState("")
+  const [password, setPassword] = React.useState("")
 
-  const email = useAppSelector(emailSelector)
-  const password = useAppSelector(passwordSelector)
+  const dispatch = useAppDispatch()
+  const navigate = useNavigate()
 
   const handleChangeVisiblePassword = () => {
     setIsShowPassword((prev) => !prev)
   }
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(authenticationSlice.actions.setEmail(e.target.value))
+    setEmail(e.target.value)
   }
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(authenticationSlice.actions.setPassword(e.target.value))
+    setPassword(e.target.value)
   }
 
-  const handleLoginButtonClick = () => {
-    console.table({email, password})
-    //TODO: call API
+  const handleLoginButtonClick = async () => {
+    try {
+      await dispatch(loginThunk({email: email.trim(), password: password.trim()})).unwrap()
+      navigate(-1)
+    } catch(e) {
+      console.error(e)
+    }
   }
 
   return (
@@ -56,6 +59,7 @@ const LoginForm:React.FC = () => {
           label='Email'
           value={email}
           onChange={handleEmailChange}
+          required
         />
       </DivideBox>
 
@@ -66,6 +70,7 @@ const LoginForm:React.FC = () => {
           type={isShowPassword ? 'text' : 'password'}
           value={password}
           onChange={handlePasswordChange}
+          required
           InputProps={{
             endAdornment: (
               <InputAdornment position='end'>

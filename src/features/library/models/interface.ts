@@ -40,3 +40,18 @@ export interface IRequest {
     reject_reason: string
     books: IBook[]
 }
+
+export interface IBorrow {
+    id: number
+    borrow_date: string
+    return_date: string
+    status: string
+    books: IBook[]
+}
+
+export interface IReview {
+    id: number,
+    rating: number,
+    comment_text: string
+    user: string
+}

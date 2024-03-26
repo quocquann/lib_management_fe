@@ -1,22 +1,41 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { getCurrentUserThunk, loginThunk } from "./action";
+import { ETypeAlert, showAlert } from "../../../../shared/helpers/alert";
+import { IUser } from "../../models/interface";
 
 export interface IAuthenticationState {
-    email: string,
-    password: string
+    isLogged: boolean
+    currentUser: IUser
 }
 
 export const authenticationSlice = createSlice({
     name: 'authentication',
     initialState: {
-        email: '',
-        password: '',
+        isLogged: localStorage.getItem('accessToken') ? true : false,
+        currentUser: {} as IUser
     } as IAuthenticationState,
     reducers: {
-        setEmail: (state, action) => {
-            state.email = action.payload
-        },
-        setPassword: (state, action) => {
-            state.password = action.payload
+        logout: (state) => {
+            state.isLogged = false
+            localStorage.removeItem("accessToken")
+            showAlert("Bạn đã đăng xuất", ETypeAlert.SUCCESS)
         }
+    },
+    extraReducers: builder => {
+        builder
+            .addCase(loginThunk.pending, (state, action) => {
+                //TODO: login pending
+            })
+            .addCase(loginThunk.fulfilled, (state, action) => {
+                localStorage.setItem("accessToken", action.payload.access)
+                showAlert("Đăng nhập thành công", ETypeAlert.SUCCESS)
+                state.isLogged = true
+            })
+            .addCase(loginThunk.rejected, () => {
+                showAlert("Email hoặc mật khẩu không đúng", ETypeAlert.ERROR)
+            })
+            .addCase(getCurrentUserThunk.fulfilled, (state, action) => {
+                state.currentUser = action.payload
+            })
     }
 })

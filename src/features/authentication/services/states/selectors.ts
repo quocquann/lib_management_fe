@@ -7,5 +7,5 @@ interface IState {
     authentication: IAuthenticationState
 }
 
-export const emailSelector = (state:IState) => state.authentication.email
-export const passwordSelector = (state: IState) => state.authentication.password
+export const currentUserSelector = (state: IState) => state.authentication.currentUser
+export const isLoggedSelector = (state: IState) => state.authentication.isLogged

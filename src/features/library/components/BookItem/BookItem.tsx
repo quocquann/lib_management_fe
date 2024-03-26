@@ -83,7 +83,7 @@ const BookItem: React.FC<IBookItemProps> = ({book}) => {
                 <AddIcon/>
             </ButtonStyled>
         </ImageBox>
-        <Link component={RouterLink} to={`/home/detail/${book.id}`}>
+        <Link component={RouterLink} to={`/detail/${book.id}`}>
             <TypographyStyled variant='h6' component='h6'>{book.title}</TypographyStyled>
         </Link>
         <Typography variant='subtitle2' component='p'>{book.genre}</Typography>

@@ -45,14 +45,8 @@ const BorrowForm:React.FC = () => {
     if(booksInBasket.length > 3) {
         showAlert("Bạn không được mượn nhiều hơn 3 cuốn sách", ETypeAlert.ERROR)
     } else {
-        showAlert("Mượn sách thành công", ETypeAlert.SUCCESS)
         let start = formatDate(startDate as dayjs.Dayjs)
         let end = formatDate(endDate as dayjs.Dayjs)
-        console.table({
-            booksInBasket,
-            start,
-            end
-        })
         const book_ids = booksInBasket.map(book => book.id)
         dispatch(createRequestThunk({
             start_date: start,
@@ -84,7 +78,7 @@ const BorrowForm:React.FC = () => {
                 />
             </LocalizationProvider>
 
-            <ButtonStyled variant='contained' onClick={handleBorrowButtonClick}>
+            <ButtonStyled disabled={startDate === null || endDate === null} variant='contained' onClick={handleBorrowButtonClick}>
                 <Typography>
                     Mượn
                 </Typography>

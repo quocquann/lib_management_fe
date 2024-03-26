@@ -1,5 +1,5 @@
 import { KeyboardArrowUp, KeyboardArrowDown, Delete } from '@mui/icons-material'
-import { TableRow, TableCell, IconButton, Collapse, Box, Typography } from '@mui/material'
+import { TableRow, TableCell, IconButton, Collapse, Box, Typography, Chip } from '@mui/material'
 import React from 'react'
 import BorrowTable from '../BorrowTable/BorrowTable'
 import { IBook } from '../../models/interface'
@@ -21,6 +21,17 @@ const Row:React.FC<IRowProps> = (props) => {
   }
   
   const { startDate, endDate, type, status, books} = props
+
+  let chipColor: "success" | "error" | "warning" | "primary" | "secondary" | "info" | "default"
+  if(status === 'pending'){
+    chipColor = 'warning'
+  }
+  else if (status === 'approved'){
+    chipColor = 'success'
+  } else {
+    chipColor = 'error'
+  }
+
   return (
     <>
         <TableRow>
@@ -40,7 +51,7 @@ const Row:React.FC<IRowProps> = (props) => {
                 {type}
             </TableCell>
             <TableCell>
-                {status}
+                <Chip variant='outlined' color={chipColor} label={status}/>
             </TableCell>
             <TableCell>
                 <IconButton>

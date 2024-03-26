@@ -1,3 +1,4 @@
+
 import { IAuthenticationState } from '../../../authentication/services/states/authenticationSlice';
 import { ILibraryState } from './librarySlice';
 
@@ -18,4 +19,6 @@ export const searchStringSelector = (state: IState) => state.library.searchStrin
 export const listTitleSelector = (state: IState) => state.library.listTitle
 export const isSearchBookLoadingSelector = (state: IState) => state.library.isSearchBookLoading
 export const numBookSelector = (state: IState) => state.library.numBook
-export const requestsSeletor = (state: IState) => state.library.requests
+export const requestsSelector = (state: IState) => state.library.requests
+export const borrowsSelector = (state: IState) => state.library.borrows
+export const reviewsSelector = (state: IState) => state.library.reviews

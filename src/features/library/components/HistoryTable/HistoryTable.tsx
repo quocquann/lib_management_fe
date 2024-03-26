@@ -1,40 +1,17 @@
 import { TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, Typography } from '@mui/material'
 import React from 'react'
 import Row from './Row'
+import { IBorrow } from '../../models/interface'
 
-const HistoryTable:React.FC = () => {
+interface IHistoryTableProps {
+    borrows: IBorrow[]
+}
 
+const HistoryTable:React.FC<IHistoryTableProps> = (props) => {
+
+  const { borrows } = props
 
   const columns = ['', 'Mã phiếu', 'Ngày mượn', 'Ngày trả', 'Trang thái'] 
-
-  interface IRows {
-    billNo: number,
-    startDate: string,
-    endDate: string,
-    status: string
-  }
-
-  const rows:IRows[] = [
-    {
-        billNo: 1, 
-        endDate: 'Hanah Grace', 
-        startDate: 'Fiction', 
-        status: 'loan'
-    },
-    {
-        billNo: 2, 
-        endDate: 'Hanah Grace', 
-        startDate: 'Fiction', 
-        status: 'loan'
-    },{
-        billNo: 3, 
-        endDate: 'Hanah Grace', 
-        startDate: 'Fiction', 
-        status: 'loan'
-    },
-  ]
-
-  //TODO: fix data
 
   return (
     <TableContainer component={Paper} elevation={3}>
@@ -51,8 +28,14 @@ const HistoryTable:React.FC = () => {
                 </TableRow>
             </TableHead>
             <TableBody>                        
-                {rows.map(row => (
-                    <Row key={row.billNo} {...row}/>
+                {borrows.map(borrow => (
+                    <Row 
+                        key={borrow.id} 
+                        startDate={borrow.borrow_date}
+                        endDate={borrow.return_date}
+                        status={borrow.status}
+                        books={borrow.books}
+                    />
                 ))}
             </TableBody>
         </Table>

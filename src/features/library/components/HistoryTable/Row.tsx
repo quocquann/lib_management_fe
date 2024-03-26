@@ -2,13 +2,13 @@ import { KeyboardArrowUp, KeyboardArrowDown } from '@mui/icons-material'
 import { TableRow, TableCell, IconButton, Collapse, Box, Typography } from '@mui/material'
 import React from 'react'
 import BorrowTable from '../BorrowTable/BorrowTable'
-import { borrowBooks } from '../../../../shared/mocks/borrowBooks'
+import { IBook } from '../../models/interface'
 
 interface IRowProps {
-    billNo: number,
     startDate: string,
     endDate: string,
-    status: string
+    status: string,
+    books: IBook[]
 }
 
 const Row:React.FC<IRowProps> = (props) => {
@@ -19,18 +19,14 @@ const Row:React.FC<IRowProps> = (props) => {
     setIsOpen(prev => !prev)
   }
   
-  const {billNo, startDate, endDate, status} = props
+  const {startDate, endDate, status, books} = props
   return (
     <>
         <TableRow>
             <TableCell>
                 <IconButton onClick={handleExpandRow}>
                 {isOpen ? <KeyboardArrowUp/> : <KeyboardArrowDown />}
-                {/* {TODO:} */}
                 </IconButton>
-            </TableCell>
-            <TableCell>
-                {billNo}
             </TableCell>
             <TableCell>
                 {startDate}
@@ -52,7 +48,7 @@ const Row:React.FC<IRowProps> = (props) => {
                         </Typography>
                     </Box>
 
-                    <BorrowTable readOnly books={borrowBooks}/>
+                    <BorrowTable readOnly books={books}/>
                 </Collapse>
             </TableCell>
         </TableRow>

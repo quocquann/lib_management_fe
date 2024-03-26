@@ -140,7 +140,7 @@ const SearchBookPage:React.FC = () => {
                             <>
                                 <BookList full={false} books={books}/>
                                 <Box display={'flex'} justifyContent={'flex-end'}>
-                                    <Pagination onChange={handlePageChange} page={page} count={Math.ceil(numBooks/PAGE_SIZE)} shape="rounded" />
+                                    {Math.ceil(numBooks/PAGE_SIZE) <= 1 ? "" : (<Pagination onChange={handlePageChange} page={page} count={Math.ceil(numBooks/PAGE_SIZE)} shape="rounded" />)}
                                 </Box>
                             </>
                         )

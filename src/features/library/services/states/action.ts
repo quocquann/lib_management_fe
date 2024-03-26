@@ -89,6 +89,25 @@ export const createRequestThunk = createAsyncThunk('request/createRequests', asy
             type,
             book_ids
         )
+        console.log(data)
+        return data
+    } catch(e) {
+        throw e
+    }
+})
+
+export const getBorrowsThunk = createAsyncThunk('borrow/getBorrows', async () => {
+    try {
+        const data = apiRequest.getBorrows()
+        return data
+    }catch(e) {
+        throw e
+    }
+})
+
+export const getReviewsThunk = createAsyncThunk('review/getReiviews', async (id: string) => {
+    try {
+        const data = apiRequest.getReviews(id)
         return data
     } catch(e) {
         throw e

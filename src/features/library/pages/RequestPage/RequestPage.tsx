@@ -3,13 +3,13 @@ import React from 'react'
 import TableRequest from '../../components/TableRequest/TableRequest'
 import { useAppDispatch, useAppSelector } from '../../../../redux/hook'
 import { getRequestsThunk } from '../../services/states/action'
-import { requestsSeletor } from '../../services/states/selector'
+import { requestsSelector } from '../../services/states/selector'
 
 const RequestPage:React.FC = () => {
 
   const dispatch = useAppDispatch()
 
-  const requests = useAppSelector(requestsSeletor)
+  const requests = useAppSelector(requestsSelector)
 
   React.useEffect(() => {
     dispatch(getRequestsThunk())
@@ -18,8 +18,8 @@ const RequestPage:React.FC = () => {
   return (
     <Box marginTop={20}>
         <Container>
-            <Typography>
-                Reqeust
+            <Typography variant='h5' fontWeight={500} marginBottom={4}>
+                Yêu cầu mượn
             </Typography>
             <TableRequest requests={requests}/>
         </Container>

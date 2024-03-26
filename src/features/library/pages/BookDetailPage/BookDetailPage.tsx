@@ -1,16 +1,18 @@
 import React from 'react'
 import {styled} from '@mui/material/styles'
-import { Box, Button, Collapse, Container, List, ListItemButton, ListItemIcon, ListItemText, Pagination, Paper, Rating, Skeleton, Typography } from '@mui/material'
+import { Box, Button, Collapse, Container, List, ListItemButton, ListItemIcon, ListItemText, Pagination, Paper, Rating, Skeleton, TextField, TextareaAutosize, Typography } from '@mui/material'
 import { Add, Remove } from '@mui/icons-material'
 import BookList from '../../components/BookList/BookList'
 import { bookList } from '../../../../shared/mocks/bookList'
 import CategoryLabel from '../../components/CategoryLabel/CategoryLabel'
 import { useAppDispatch, useAppSelector } from '../../../../redux/hook'
 import ReviewList from '../../components/ReviewList/ReviewList'
-import { getBookByIdThunk } from '../../services/states/action'
+import { getBookByIdThunk, getReviewsThunk } from '../../services/states/action'
 import { useParams } from 'react-router-dom'
-import { bookDetailSelector, isDetailLoadingSelector } from '../../services/states/selector'
+import { bookDetailSelector, isDetailLoadingSelector, reviewsSelector } from '../../services/states/selector'
 import { librarySlice } from '../../services/states/librarySlice'
+import { isLoggedSelector } from '../../../authentication/services/states/selectors'
+import { ETypeAlert, showAlert } from '../../../../shared/helpers/alert'
 
 const ContainerStyled = styled(Container)({
     marginTop: 20,
@@ -60,18 +62,28 @@ const SkeletonStyled = styled(Skeleton)({
 
 const BookDetailPage: React.FC = () => {
 
+  const reviewPageSize = 5
+
   const [isDescribeTabOpen, setIsDescribeTabOpen] = React.useState<boolean>(false)
   const [isReviewTabOpen, setIsReviewTabOpen] = React.useState<boolean>(false)
+  const [comment, setComment] = React.useState("")
+  const [rating, setRating] = React.useState(0)
 
   const dispatch = useAppDispatch()
   const {id} = useParams()
 
   const book = useAppSelector(bookDetailSelector)
   const isDetailLoading = useAppSelector(isDetailLoadingSelector)
+  const reviews = useAppSelector(reviewsSelector)
+  const isLogged = useAppSelector(isLoggedSelector)
   
   React.useEffect(() => {
     dispatch(getBookByIdThunk(id as string))  
   },[dispatch, id])
+
+  React.useEffect(() => {
+    dispatch(getReviewsThunk(id as string))
+  },[dispatch])
 
   const handleAddButtonClick = () => {
     dispatch(librarySlice.actions.addBookToBasket(book))
@@ -84,6 +96,22 @@ const BookDetailPage: React.FC = () => {
 
   const handleReviewChange = () => {
     setIsReviewTabOpen((prev) => !prev)
+  }
+
+  const handleReviewButtonClick = () => {
+    console.table({comment, rating})
+    //TODO: create review
+    if(!isLogged){
+        showAlert("Bạn phải đăng nhập để viết đánh giá", ETypeAlert.INFOR)
+    }
+  }
+
+  const handleChangeRating = (_event: React.SyntheticEvent, value: number | null) => {
+    setRating(value as number)
+  }
+
+  const handleCommentTextFieldChange = (event : React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setComment(event.target.value)
   }
 
   return (
@@ -153,17 +181,35 @@ const BookDetailPage: React.FC = () => {
                         </Collapse>
 
                         <ListItemButtonStyled onClick={handleReviewChange}>
-                            <ListItemIcon>
+                            <ListItemIcon>  
                             {isReviewTabOpen ? <Remove/> : <Add/>}
                             </ListItemIcon>
                             <ListItemText>
-                                Đánh giá
+                                Đánh giá ({reviews.length})
                             </ListItemText>
                         </ListItemButtonStyled>
 
                         <Collapse in={isReviewTabOpen} timeout='auto'>
-                            <ReviewList/>
-                            <Pagination count={10} shape="rounded" />
+                            <ReviewList reviews={reviews}/>
+                            {Math.ceil(reviews.length/reviewPageSize) <= 1 ? "" : (<Pagination count={Math.ceil(reviews.length/reviewPageSize)} shape="rounded" />)}
+                            <Box marginTop={5}>
+                                <TextField
+                                    fullWidth
+                                    multiline
+                                    rows={5}
+                                    label='Viết gì đó'
+                                    value={comment}
+                                    onChange={handleCommentTextFieldChange}
+                                />
+                                <Box marginTop={1}>
+                                    <Rating value={rating} onChange={handleChangeRating}/>
+                                </Box>
+                                <Box marginTop={3} display={'flex'} justifyContent={'flex-end'}>
+                                    <Button variant='contained' onClick={handleReviewButtonClick}>
+                                        Đánh giá
+                                    </Button>
+                                </Box>
+                            </Box>
                         </Collapse>
                     </List>
                 </Box>

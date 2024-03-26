@@ -1,12 +1,20 @@
 import React from 'react'
 import ReviewItem from '../ReviewItem/ReviewItem'
+import { IReview } from '../../models/interface'
 
-const ReviewList:React.FC = () => {
+interface IReviewListProps {
+  reviews: IReview[]
+}
+
+const ReviewList:React.FC<IReviewListProps> = (props) => {
+
+  const { reviews } = props
+
   return (
     <>
-        <ReviewItem/>
-        <ReviewItem/>
-        <ReviewItem/>
+        {reviews.map(review => (
+          <ReviewItem key={review.id} review={review}/>
+        ))}
     </>
   )
 }

@@ -6,11 +6,14 @@ import Container from '@mui/material/Container';
 import Link from '@mui/material/Link'
 import { Badge, Box, IconButton, ListItemIcon, Menu, MenuItem} from '@mui/material';
 import { Logout, ShoppingBag } from '@mui/icons-material';
-import { useAppSelector } from '../../../redux/hook';
+import { useAppDispatch, useAppSelector } from '../../../redux/hook';
 import { booksInBasketSelector } from '../../../features/library/services/states/selector';
 import {Link as RouterLink} from 'react-router-dom'
 import {styled} from '@mui/material/styles'
 import {Person, LocalLibrary} from "@mui/icons-material"
+import { currentUserSelector, isLoggedSelector } from '../../../features/authentication/services/states/selectors';
+import { getCurrentUserThunk } from '../../../features/authentication/services/states/action';
+import { authenticationSlice } from '../../../features/authentication/services/states/authenticationSlice';
 
 
 const LinkStyled = styled(Link)({
@@ -32,7 +35,15 @@ const Header: React.FC = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
   const open = Boolean(anchorEl)
 
+  const dispatch = useAppDispatch()
+
   const booksInBasket = useAppSelector(booksInBasketSelector)
+  const currentUser = useAppSelector(currentUserSelector)
+  const isLogged = useAppSelector(isLoggedSelector)
+
+  React.useEffect(() => {
+    dispatch(getCurrentUserThunk())
+  }, [dispatch])
 
   const handleAvatarClick = (e: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(e.currentTarget)
@@ -42,6 +53,10 @@ const Header: React.FC = () => {
     setAnchorEl(null)
   }
 
+  const handleLogoutButtonClick = () => {
+    dispatch(authenticationSlice.actions.logout())
+  }
+
   return (
     <AppBar>
       <Container>
@@ -49,45 +64,56 @@ const Header: React.FC = () => {
           <LinkStyled component={RouterLink} to={"/home"}>
             <LocalLibrary fontSize='large'/>
           </LinkStyled>
-          <LinkStyled component={RouterLink} to={"search"}>
+          <LinkStyled component={RouterLink} to={"/all-book"}>
             <Typography>
               Tất cả sách
             </Typography>
           </LinkStyled>
-          <LinkStyled component={RouterLink} to={"history"}>
+          <LinkStyled component={RouterLink} to={"/history"}>
             <Typography>
               Lịch sử
+            </Typography>
+          </LinkStyled>
+          <LinkStyled component={RouterLink} to={"/request"}>
+            <Typography>
+              Yêu cầu 
             </Typography>
           </LinkStyled>
 
           <BoxStyled/>
 
-          <LinkStyled component={RouterLink} to={"borrow"}>
+          <LinkStyled component={RouterLink} to={"/borrow"}>
             <IconButtonStyled>
               <Badge badgeContent={booksInBasket.length} color='error'>
                 <ShoppingBag/>
               </Badge>
             </IconButtonStyled>
           </LinkStyled>
-
-          <Menu 
-            open={open}
-            anchorEl={anchorEl}
-            onClose={handleCloseMenu}
-          >
-            <MenuItem onClick={handleCloseMenu}>
-              <ListItemIcon>
-                <Logout fontSize="small" />
-              </ListItemIcon>
-              Đăng xuất
-            </MenuItem>
-          </Menu>
-          <IconButtonStyled onClick={handleAvatarClick}>
-            <Person/>
-          </IconButtonStyled>
-          <Typography marginLeft={1}>
-            Quoc Quan
-          </Typography>
+          { isLogged ? (
+            <>
+              <Menu 
+                open={open}
+                anchorEl={anchorEl}
+                onClose={handleCloseMenu}
+              >
+                <MenuItem onClick={handleLogoutButtonClick}>
+                  <ListItemIcon>
+                    <Logout fontSize="small" />
+                  </ListItemIcon>
+                  Đăng xuất
+                </MenuItem>
+              </Menu>
+              <IconButtonStyled onClick={handleAvatarClick}>
+                <Person/>
+              </IconButtonStyled>
+              <Typography marginLeft={1}>
+                {currentUser.username || currentUser.email}
+              </Typography>
+            </>
+          ) : (
+            <LinkStyled component={RouterLink} to={"/login"}>Đăng nhập</LinkStyled>
+          )}
+          
         </Toolbar>
       </Container>
     </AppBar>

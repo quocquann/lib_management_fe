@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { IAuthor, IBook, IGenre, IPublisher, IRequest } from "../../models/interface";
-import { createRequestThunk, getAuthorsThunk, getBookByIdThunk, getBooksThunk, getGenresThunk, getPublishersThunk, getRequestsThunk } from "./action";
+import { IAuthor, IBook, IBorrow, IGenre, IPublisher, IRequest, IReview } from "../../models/interface";
+import { createRequestThunk, getAuthorsThunk, getBookByIdThunk, getBooksThunk, getBorrowsThunk, getGenresThunk, getPublishersThunk, getRequestsThunk, getReviewsThunk } from "./action";
+import { ETypeAlert, showAlert } from "../../../../shared/helpers/alert";
 
 export interface ILibraryState {
     booksInBasket: IBook[]
@@ -14,7 +15,9 @@ export interface ILibraryState {
     listTitle: string,
     isSearchBookLoading: boolean,
     numBook: number,
-    requests: IRequest[]
+    requests: IRequest[],
+    borrows: IBorrow[],
+    reviews: IReview[]
 }
 
 export const librarySlice = createSlice({
@@ -31,7 +34,9 @@ export const librarySlice = createSlice({
         listTitle: "Tất cả",
         isSearchBookLoading: false,
         numBook: 0,
-        requests: []
+        requests: [],
+        borrows: [],
+        reviews: []
     } as ILibraryState,
     reducers: {
         addBookToBasket: (state, action) => {
@@ -85,18 +90,34 @@ export const librarySlice = createSlice({
             state.publishers = action.payload
         })
         .addCase(createRequestThunk.pending, (state) => {
-            //TODO:
+            //TODO: Create request pending
         })
         .addCase(createRequestThunk.fulfilled, (state, action) => {
-            //TODO:
             console.log(action)
+            showAlert('Tạo yêu cầu mượn sách thành công', ETypeAlert.SUCCESS)
         })
         .addCase(createRequestThunk.rejected, (state, action) => {
-            //TODO:
+            console.log(action)
+            showAlert(action.payload as string, ETypeAlert.ERROR)
         })
         .addCase(getRequestsThunk.fulfilled, (state, action) => {
             state.requests = action.payload
 
+        })
+        .addCase(getBorrowsThunk.pending, (state, action) => {
+            //TODO: Get borrows peding
+        })
+        .addCase(getBorrowsThunk.fulfilled, (state, action) => {
+            state.borrows = action.payload
+        })
+        .addCase(getBorrowsThunk.rejected, (state, action) => {
+            //TODO: Get borrows rejected
+        })
+        .addCase(getReviewsThunk.pending, (state, action) => {
+            //TODO: Get review pending
+        })
+        .addCase(getReviewsThunk.fulfilled, (state, action) => {
+            state.reviews = action.payload
         })
     }
 })

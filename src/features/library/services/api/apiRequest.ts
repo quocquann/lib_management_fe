@@ -1,5 +1,5 @@
 import { instance } from '../../../../axios/config'
-import { IAuthor, IBook, IBookResponse, IGenre } from '../../models/interface'
+import { IAuthor, IBook, IBookResponse, IBorrow, IGenre, IRequest, IReview } from '../../models/interface'
 
 const getBooks = async (page?:number, search?:string, author?:number, genre?: number, publisher?:number): Promise<IBookResponse> => {
     try { 
@@ -54,12 +54,12 @@ const getPublishers = async () : Promise<IAuthor[]> => {
     }
 }
 
-const getRequest = async () => {
+const getRequest = async () : Promise<IRequest[]> => {
     try {
         const res = await instance.get('requests/', {
             headers: {
-                Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzExMzY0NzE5LCJpYXQiOjE3MTEzNjExMTksImp0aSI6ImVkOTZiZDA3MzAyNTRkOGZiM2EyZjg4MmI2MmU3M2MxIiwidXNlcl9pZCI6MX0.wH-uVcrpNj_JChDsspjeUUksmpkupo9-bKT7BnuzhE8`
-              }
+                Authorization: localStorage.getItem('accessToken') ? `Bearer ${localStorage.getItem('accessToken')}` : ""
+            }
         })
         return res.data
     } catch(e) {
@@ -67,7 +67,7 @@ const getRequest = async () => {
     }
 }
 
-const createRequest = async (start_date: string, end_date: string, type: string, book_ids: number[]) => {
+const createRequest = async (start_date: string, end_date: string, type: string, book_ids: number[]) : Promise<IRequest> => {
     try {
         const res = await instance.post("requests/", {
             start_date,
@@ -76,7 +76,7 @@ const createRequest = async (start_date: string, end_date: string, type: string,
             book_ids
         }, {
             headers: {
-                Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzExMzY0NzE5LCJpYXQiOjE3MTEzNjExMTksImp0aSI6ImVkOTZiZDA3MzAyNTRkOGZiM2EyZjg4MmI2MmU3M2MxIiwidXNlcl9pZCI6MX0.wH-uVcrpNj_JChDsspjeUUksmpkupo9-bKT7BnuzhE8`
+                Authorization: localStorage.getItem('accessToken') ? `Bearer ${localStorage.getItem('accessToken')}` : ""
               }
         })
         return res.data
@@ -85,6 +85,29 @@ const createRequest = async (start_date: string, end_date: string, type: string,
     }
 } 
 
+const getBorrows = async () : Promise<IBorrow[]> => {
+    try {
+        const res = await instance.get("borrows/", {
+            headers: {
+                Authorization: localStorage.getItem('accessToken') ? `Bearer ${localStorage.getItem('accessToken')}` : ""
+            }
+        })
+
+        return res.data
+    } catch (e) {
+        throw e
+    }
+}
+
+const getReviews = async (id: string) : Promise<IReview[]> => {
+    try {
+        const res = await instance.get(`reviews/books/${id}/`)
+        return res.data
+    } catch (e) {
+        throw e
+    }
+}
+
 const apiRequest = {
     getBooks,
     getBookById,
@@ -92,6 +115,8 @@ const apiRequest = {
     getGenres,
     getPublishers,
     getRequest,
-    createRequest
+    createRequest,
+    getBorrows,
+    getReviews
 }
 export default apiRequest

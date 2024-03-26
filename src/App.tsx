@@ -13,6 +13,7 @@ import { store } from './redux/store';
 import { ToastContainer } from 'react-toastify';
 import CalendarPage from './features/library/pages/CalendarPage/CalendarPage';
 import RequestPage from './features/library/pages/RequestPage/RequestPage';
+import PrivateRoute from './shared/components/PrivateRoute/PrivateRoute';
 
 
 function App() {
@@ -23,16 +24,16 @@ function App() {
       <BrowserRouter>
           <Routes>
             <Route path="" element={<Navigate to="home"/>}/>
-            <Route path="login" element={<LoginPage/>}/>
-            
-            <Route path="home" element={<HomeLayout/>}>
-              <Route path="" element={<HomePage/>}/>
+
+            <Route path="" element={<HomeLayout/>}>
+              <Route path="login" element={<LoginPage/>}/>
+              <Route path="home" element={<HomePage/>}/>
               <Route path="detail/:id" element={<BookDetailPage/>}/>  
+              <Route path="all-book" element={<SearchBookPage/>}/>
               <Route path="borrow" element={<BorrowPage/>}/>
-              <Route path="search" element={<SearchBookPage/>}/>
-              <Route path="history" element={<HistoryPage/>}/>
-              <Route path="calendar" element={<CalendarPage/>}/>
-              <Route path="request" element={<RequestPage/>}/>
+              <Route path="history" element={<PrivateRoute><HistoryPage/></PrivateRoute>}/>
+              <Route path="calendar" element={<PrivateRoute><CalendarPage/></PrivateRoute>}/>
+              <Route path="request" element={<PrivateRoute><RequestPage/></PrivateRoute>}/>
             </Route>
           </Routes>
       </BrowserRouter>
