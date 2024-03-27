@@ -5,6 +5,7 @@ import BorrowTable from '../BorrowTable/BorrowTable'
 import { IBook } from '../../models/interface'
 
 interface IRowProps {
+    id: number
     startDate: string,
     endDate: string,
     type: string,
@@ -20,16 +21,23 @@ const Row:React.FC<IRowProps> = (props) => {
     setIsOpen(prev => !prev)
   }
   
-  const { startDate, endDate, type, status, books} = props
+  const { id, startDate, endDate, type, status, books} = props
 
-  let chipColor: "success" | "error" | "warning" | "primary" | "secondary" | "info" | "default"
+  let chipStatusColor: "success" | "error" | "warning" | "primary" | "secondary" | "info" | "default"
   if(status === 'pending'){
-    chipColor = 'warning'
+    chipStatusColor = 'warning'
   }
   else if (status === 'approved'){
-    chipColor = 'success'
+    chipStatusColor = 'success'
   } else {
-    chipColor = 'error'
+    chipStatusColor = 'error'
+  }
+
+  let chipTypeColor: "success" | "error" | "warning" | "primary" | "secondary" | "info" | "default"
+  if(type === 'borrow'){
+    chipTypeColor = 'primary'
+  } else {
+    chipTypeColor = 'secondary'
   }
 
   return (
@@ -38,8 +46,10 @@ const Row:React.FC<IRowProps> = (props) => {
             <TableCell>
                 <IconButton onClick={handleExpandRow}>
                 {isOpen ? <KeyboardArrowUp/> : <KeyboardArrowDown />}
-                {/* {TODO:} */}
                 </IconButton>
+            </TableCell>
+            <TableCell>
+                {id}
             </TableCell>
             <TableCell>
                 {startDate}
@@ -48,10 +58,10 @@ const Row:React.FC<IRowProps> = (props) => {
                 {endDate}
             </TableCell>
             <TableCell>
-                {type}
+                <Chip variant='outlined' color={chipTypeColor} label={type} size='small'/>
             </TableCell>
             <TableCell>
-                <Chip variant='outlined' color={chipColor} label={status}/>
+                <Chip variant='outlined' color={chipStatusColor} label={status} size='small'/>
             </TableCell>
             <TableCell>
                 <IconButton>

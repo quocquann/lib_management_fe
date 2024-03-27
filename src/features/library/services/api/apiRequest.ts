@@ -108,6 +108,22 @@ const getReviews = async (id: string) : Promise<IReview[]> => {
     }
 }
 
+const createReview = async (id: string, rating: number, comment_text: string) : Promise<IReview> => {
+    try {
+        const res = await instance.post(`reviews/books/${id}/`, {
+            rating,
+            comment_text
+        },{
+            headers: {
+                Authorization: localStorage.getItem('accessToken') ? `Bearer ${localStorage.getItem('accessToken')}` : ""
+            }
+        })
+        return res.data
+    } catch(e) {
+        throw e
+    }
+}
+
 const apiRequest = {
     getBooks,
     getBookById,
@@ -117,6 +133,7 @@ const apiRequest = {
     getRequest,
     createRequest,
     getBorrows,
-    getReviews
+    getReviews,
+    createReview
 }
 export default apiRequest

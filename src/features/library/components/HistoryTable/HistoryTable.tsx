@@ -31,6 +31,7 @@ const HistoryTable:React.FC<IHistoryTableProps> = (props) => {
                 {borrows.map(borrow => (
                     <Row 
                         key={borrow.id} 
+                        id={borrow.id}
                         startDate={borrow.borrow_date}
                         endDate={borrow.return_date}
                         status={borrow.status}

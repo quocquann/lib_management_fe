@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { IAuthor, IBook, IBorrow, IGenre, IPublisher, IRequest, IReview } from "../../models/interface";
-import { createRequestThunk, getAuthorsThunk, getBookByIdThunk, getBooksThunk, getBorrowsThunk, getGenresThunk, getPublishersThunk, getRequestsThunk, getReviewsThunk } from "./action";
+import { createRequestThunk, createReviewThunk, getAuthorsThunk, getBookByIdThunk, getBooksThunk, getBorrowsThunk, getGenresThunk, getPublishersThunk, getRequestsThunk, getReviewsThunk } from "./action";
 import { ETypeAlert, showAlert } from "../../../../shared/helpers/alert";
 
 export interface ILibraryState {
@@ -44,6 +44,7 @@ export const librarySlice = createSlice({
                 return
             }
             state.booksInBasket = [...state.booksInBasket, action.payload]
+            localStorage.setItem('basket', JSON.stringify(state.booksInBasket))
         },
         removeBookToBasket: (state, action) => {
             state.booksInBasket = state.booksInBasket.filter(book => book.id !== action.payload)
@@ -95,6 +96,7 @@ export const librarySlice = createSlice({
         .addCase(createRequestThunk.fulfilled, (state, action) => {
             console.log(action)
             showAlert('Tạo yêu cầu mượn sách thành công', ETypeAlert.SUCCESS)
+            localStorage.removeItem('basket')
         })
         .addCase(createRequestThunk.rejected, (state, action) => {
             console.log(action)
@@ -118,6 +120,9 @@ export const librarySlice = createSlice({
         })
         .addCase(getReviewsThunk.fulfilled, (state, action) => {
             state.reviews = action.payload
+        })
+        .addCase(createReviewThunk.fulfilled, () => {
+            showAlert('Đánh giá thành công', ETypeAlert.SUCCESS)
         })
     }
 })

@@ -9,6 +9,7 @@ import { useAppDispatch, useAppSelector } from '../../../../redux/hook';
 import { booksInBasketSelector,} from '../../services/states/selector';
 import formatDate from '../../../../shared/helpers/formatDate';
 import { createRequestThunk } from '../../services/states/action';
+import { useNavigate } from 'react-router-dom';
 
 
 const BoxStyled = styled(Box)({
@@ -29,6 +30,8 @@ const BorrowForm:React.FC = () => {
   const [startDate, setStartDate] = React.useState<dayjs.Dayjs | null>(null)
   const [endDate, setEndDate] = React.useState<dayjs.Dayjs | null>(null)
 
+  const navigate = useNavigate()
+
   const dispatch = useAppDispatch()
 
   const booksInBasket = useAppSelector(booksInBasketSelector)
@@ -41,19 +44,24 @@ const BorrowForm:React.FC = () => {
     setEndDate(newValue)
   }
 
-  const handleBorrowButtonClick = () => {
+  const handleBorrowButtonClick = async () => {
     if(booksInBasket.length > 3) {
         showAlert("Bạn không được mượn nhiều hơn 3 cuốn sách", ETypeAlert.ERROR)
     } else {
         let start = formatDate(startDate as dayjs.Dayjs)
         let end = formatDate(endDate as dayjs.Dayjs)
         const book_ids = booksInBasket.map(book => book.id)
-        dispatch(createRequestThunk({
-            start_date: start,
-            end_date: end,
-            type: 'borrow',
-            book_ids: book_ids
-        }))
+        try {
+            await dispatch(createRequestThunk({
+                start_date: start,
+                end_date: end,
+                type: 'borrow',
+                book_ids: book_ids
+            })).unwrap()
+            navigate("/request")
+        }catch(e) {
+            console.error(e)
+        }
     }
   }
 

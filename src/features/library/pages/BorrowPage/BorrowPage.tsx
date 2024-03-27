@@ -15,7 +15,7 @@ const BorrowPage:React.FC = () => {
             <Typography variant='h5' fontWeight={500} marginBottom={2}>
                 Phiếu mượn sách
             </Typography>
-            <BorrowTable books={booksInBasket}/>
+            <BorrowTable books={JSON.parse(localStorage.getItem('basket') as string) || booksInBasket}/>
             <Box marginTop={2}>
                 <BorrowForm/>
             </Box>

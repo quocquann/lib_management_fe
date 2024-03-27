@@ -10,7 +10,7 @@ interface ITableRequestProps {
 const TableRequest:React.FC<ITableRequestProps> = (props) => {
   
   const { requests } = props
-  const columns = ['', 'Ngày bắt đầu', 'Ngày kết thúc', 'Loại', 'Trạng thái', '']
+  const columns = ['', 'Mã', 'Ngày bắt đầu', 'Ngày kết thúc', 'Loại', 'Trạng thái', '']
 
   return (
     <Paper component={Table} elevation={2}>
@@ -29,6 +29,7 @@ const TableRequest:React.FC<ITableRequestProps> = (props) => {
             {requests.map(request => (
                 <Row 
                     key={request.id}
+                    id={request.id}
                     startDate={request.start_date} 
                     endDate={request.end_date}
                     type={request.type}

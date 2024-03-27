@@ -43,7 +43,7 @@ const Header: React.FC = () => {
 
   React.useEffect(() => {
     dispatch(getCurrentUserThunk())
-  }, [dispatch])
+  }, [dispatch, isLogged])
 
   const handleAvatarClick = (e: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(e.currentTarget)
@@ -79,12 +79,17 @@ const Header: React.FC = () => {
               Yêu cầu 
             </Typography>
           </LinkStyled>
+          <LinkStyled component={RouterLink} to={"/calendar"}>
+            <Typography>
+              Lịch mượn sách
+            </Typography>
+          </LinkStyled>
 
           <BoxStyled/>
 
           <LinkStyled component={RouterLink} to={"/borrow"}>
             <IconButtonStyled>
-              <Badge badgeContent={booksInBasket.length} color='error'>
+              <Badge badgeContent={localStorage.getItem('basket') ? JSON.parse(localStorage.getItem('basket') as string).length : booksInBasket.length} color='error'>
                 <ShoppingBag/>
               </Badge>
             </IconButtonStyled>

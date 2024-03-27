@@ -1,13 +1,13 @@
 import React from 'react'
 import {styled} from '@mui/material/styles'
-import { Box, Button, Collapse, Container, List, ListItemButton, ListItemIcon, ListItemText, Pagination, Paper, Rating, Skeleton, TextField, TextareaAutosize, Typography } from '@mui/material'
+import { Box, Button, Collapse, Container, List, ListItemButton, ListItemIcon, ListItemText, Pagination, Paper, Rating, Skeleton, TextField, Typography } from '@mui/material'
 import { Add, Remove } from '@mui/icons-material'
 import BookList from '../../components/BookList/BookList'
 import { bookList } from '../../../../shared/mocks/bookList'
 import CategoryLabel from '../../components/CategoryLabel/CategoryLabel'
 import { useAppDispatch, useAppSelector } from '../../../../redux/hook'
 import ReviewList from '../../components/ReviewList/ReviewList'
-import { getBookByIdThunk, getReviewsThunk } from '../../services/states/action'
+import { createReviewThunk, getBookByIdThunk, getReviewsThunk } from '../../services/states/action'
 import { useParams } from 'react-router-dom'
 import { bookDetailSelector, isDetailLoadingSelector, reviewsSelector } from '../../services/states/selector'
 import { librarySlice } from '../../services/states/librarySlice'
@@ -62,7 +62,7 @@ const SkeletonStyled = styled(Skeleton)({
 
 const BookDetailPage: React.FC = () => {
 
-  const reviewPageSize = 5
+  const reviewPageSize = 20
 
   const [isDescribeTabOpen, setIsDescribeTabOpen] = React.useState<boolean>(false)
   const [isReviewTabOpen, setIsReviewTabOpen] = React.useState<boolean>(false)
@@ -83,7 +83,7 @@ const BookDetailPage: React.FC = () => {
 
   React.useEffect(() => {
     dispatch(getReviewsThunk(id as string))
-  },[dispatch])
+  },[dispatch, id])
 
   const handleAddButtonClick = () => {
     dispatch(librarySlice.actions.addBookToBasket(book))
@@ -98,12 +98,20 @@ const BookDetailPage: React.FC = () => {
     setIsReviewTabOpen((prev) => !prev)
   }
 
-  const handleReviewButtonClick = () => {
-    console.table({comment, rating})
-    //TODO: create review
+  const handleReviewButtonClick = async () => {
     if(!isLogged){
         showAlert("Bạn phải đăng nhập để viết đánh giá", ETypeAlert.INFOR)
+        return
     }
+    try {
+        await dispatch(createReviewThunk({id: id as string, rating: rating, comment_text: comment})).unwrap()
+        dispatch(getReviewsThunk(id as string))
+        setRating(0)
+        setComment("")
+    }catch(e) {
+        console.error(e)
+    }
+    
   }
 
   const handleChangeRating = (_event: React.SyntheticEvent, value: number | null) => {

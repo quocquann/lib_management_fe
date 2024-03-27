@@ -16,6 +16,12 @@ interface ICreaterequestThunkData {
     book_ids: number[]
 }
 
+interface ICreateReviewThunkParam {
+    id: string
+    rating: number
+    comment_text: string
+}
+
 export const getBooksThunk = createAsyncThunk('book/getBooks', async ({
     page,
     search,
@@ -108,6 +114,17 @@ export const getBorrowsThunk = createAsyncThunk('borrow/getBorrows', async () =>
 export const getReviewsThunk = createAsyncThunk('review/getReiviews', async (id: string) => {
     try {
         const data = apiRequest.getReviews(id)
+        return data
+    } catch(e) {
+        throw e
+    }
+})
+
+export const createReviewThunk = createAsyncThunk('review/createReview', async ({
+    id, rating, comment_text
+}:ICreateReviewThunkParam) => {
+    try {
+        const data = await apiRequest.createReview(id, rating, comment_text)
         return data
     } catch(e) {
         throw e

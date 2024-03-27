@@ -4,23 +4,44 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import React from 'react'
 import { EventClickArg } from '@fullcalendar/core'
 import { useNavigate } from 'react-router-dom'
+import { useAppDispatch, useAppSelector } from '../../../../redux/hook'
+import { borrowsSelector } from '../../services/states/selector'
+import { getBorrowsThunk } from '../../services/states/action'
+
+interface IEvent {
+  title: string
+  start: Date
+  end: Date
+}
 
 const CalendarPage: React.FC = () => {
 
   const navigate = useNavigate()
+  const dispatch = useAppDispatch()
 
-  const events = [
-    { title: 'MP-01', start: new Date(), end: new Date('2024-04-30')},
-    { title: 'MP-02', start: new Date(), end: new Date('2024-04-20')}
-  ]
-  //TODO: fix events
+  const borrows = useAppSelector(borrowsSelector)
+
+  React.useEffect(() => {
+    dispatch(getBorrowsThunk())
+  }, [dispatch])
+
+  let events: IEvent[] = []
+
+  borrows.map((borrow) => {
+    const event:IEvent = {
+      title: `MP: ${borrow.id}`,
+      start: new Date(borrow.borrow_date),
+      end: new Date(borrow.return_date)
+    }
+
+    events = [...events, event]
+  })
 
   const handleEventClick = (arg:EventClickArg) => {
     navigate('/home/history', {
         state: arg.event._def.title
     })
   }
-
 
   return (
     <Box marginTop={20}>
