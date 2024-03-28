@@ -38,7 +38,7 @@ const CalendarPage: React.FC = () => {
   })
 
   const handleEventClick = (arg:EventClickArg) => {
-    navigate('/home/history', {
+    navigate('/history', {
         state: arg.event._def.title
     })
   }

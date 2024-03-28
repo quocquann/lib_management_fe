@@ -77,7 +77,7 @@ const BookItem: React.FC<IBookItemProps> = ({book}) => {
                 square 
                 width='100%' 
                 height='100%' 
-                src={`${process.env.REACT_APP_BASE_URL}static/images${book.image}`}
+                src={`${process.env.REACT_APP_BASE_URL}media/${book.image}`}
             />
             <ButtonStyled onClick={handleAddButtonClick}>
                 <AddIcon/>

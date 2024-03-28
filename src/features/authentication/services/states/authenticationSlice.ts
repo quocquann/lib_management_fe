@@ -28,6 +28,7 @@ export const authenticationSlice = createSlice({
             })
             .addCase(loginThunk.fulfilled, (state, action) => {
                 localStorage.setItem("accessToken", action.payload.access)
+                localStorage.setItem("refreshToken", action.payload.refresh)
                 showAlert("Đăng nhập thành công", ETypeAlert.SUCCESS)
                 state.isLogged = true
             })

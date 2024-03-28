@@ -130,7 +130,7 @@ const BookDetailPage: React.FC = () => {
                     <PaperStyled 
                         component='img'
                         square
-                        src={`${process.env.REACT_APP_BASE_URL}static/images${book.image}`}
+                        src={`${process.env.REACT_APP_BASE_URL}media/${book.image}`}
                     />
                 )}
                 {isDetailLoading ? (<SkeletonStyled variant="rectangular" />): (
@@ -225,6 +225,7 @@ const BookDetailPage: React.FC = () => {
 
             <CategoryLabel text='Có thể bạn thích'/>
             <BookList books={bookList}/>
+            {/* TODO: */}
         </ContainerStyled>
     </Box>
   )
