@@ -48,6 +48,7 @@ export const librarySlice = createSlice({
         },
         removeBookToBasket: (state, action) => {
             state.booksInBasket = state.booksInBasket.filter(book => book.id !== action.payload)
+            localStorage.setItem('basket', JSON.stringify(state.booksInBasket))
         },
         setListTitle: (state, action) => {
             state.listTitle = action.payload

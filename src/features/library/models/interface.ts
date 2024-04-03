@@ -45,8 +45,10 @@ export interface IBorrow {
     id: number
     borrow_date: string
     return_date: string
+    actual_return_date: string
     status: string
     books: IBook[]
+    overdue: boolean
 }
 
 export interface IReview {

@@ -8,8 +8,10 @@ interface IRowProps {
     id: number
     startDate: string,
     endDate: string,
+    actualReturnDate: string
     status: string,
     books: IBook[]
+    overdue: boolean
 }
 
 const Row:React.FC<IRowProps> = (props) => {
@@ -20,7 +22,7 @@ const Row:React.FC<IRowProps> = (props) => {
     setIsOpen(prev => !prev)
   }
   
-  const {id, startDate, endDate, status, books} = props
+  const {id, startDate, endDate,actualReturnDate, status, books, overdue} = props
 
   let statusChipColor: "error" | "success" | "default" | "primary" | "secondary" | "info" | "warning"
   if(status === 'borrowed'){
@@ -47,7 +49,13 @@ const Row:React.FC<IRowProps> = (props) => {
                 {endDate}
             </TableCell>
             <TableCell>
+                {actualReturnDate}
+            </TableCell>
+            <TableCell>
                 <Chip variant='outlined' label={status} color={statusChipColor} size='small'/>
+            </TableCell>
+            <TableCell>
+                {overdue && <Chip variant='outlined' label='Quá hạn' color='error' size='small'/>}
             </TableCell>
         </TableRow>
 

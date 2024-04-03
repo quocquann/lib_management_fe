@@ -11,7 +11,7 @@ const HistoryTable:React.FC<IHistoryTableProps> = (props) => {
 
   const { borrows } = props
 
-  const columns = ['', 'Mã phiếu', 'Ngày mượn', 'Ngày trả', 'Trang thái'] 
+  const columns = ['', 'Mã phiếu', 'Ngày mượn', 'Ngày trả', 'Ngày trả thực tế', 'Trang thái', 'Quá hạn'] 
 
   return (
     <TableContainer component={Paper} elevation={3}>
@@ -34,8 +34,10 @@ const HistoryTable:React.FC<IHistoryTableProps> = (props) => {
                         id={borrow.id}
                         startDate={borrow.borrow_date}
                         endDate={borrow.return_date}
+                        actualReturnDate={borrow.actual_return_date}
                         status={borrow.status}
                         books={borrow.books}
+                        overdue={borrow.overdue}
                     />
                 ))}
             </TableBody>
