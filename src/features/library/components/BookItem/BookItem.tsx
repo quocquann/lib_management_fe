@@ -87,7 +87,7 @@ const BookItem: React.FC<IBookItemProps> = ({book}) => {
             <TypographyStyled variant='h6' component='h6'>{book.title}</TypographyStyled>
         </Link>
         <Typography variant='subtitle2' component='p'>{book.genre}</Typography>
-        <Rating size='small' readOnly value={4}/>
+        <Rating size='small' readOnly value={book.rating}/>
     </WrapperBox>
   )
 }

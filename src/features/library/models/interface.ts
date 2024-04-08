@@ -6,7 +6,8 @@ export interface IBook {
     describe: string
     author: string
     genre: string
-    publisher: string   
+    publisher: string 
+    rating: number  
 }
 
 export interface IAuthor {

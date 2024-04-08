@@ -9,7 +9,10 @@ instance.interceptors.response.use(
         return response
     }, 
     async (error) => {
-        console.log(error.response.status)
+        if(!error.response){
+            return Promise.reject(error)
+        }
+        
         const originalRequest = error.config
         if((error.response.status === 401 || error.response.status === 403) && !originalRequest._retry){
             originalRequest._retry = true
@@ -20,11 +23,7 @@ instance.interceptors.response.use(
 
             localStorage.setItem("accessToken", res.data.access)
 
-            console.log(111)
-
             return instance(originalRequest)
-
-            //TODO:fix it
         }
 
         return Promise.reject(error)    

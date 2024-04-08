@@ -2,8 +2,6 @@ import React from 'react'
 import {styled} from '@mui/material/styles'
 import { Box, Button, Collapse, Container, List, ListItemButton, ListItemIcon, ListItemText, Pagination, Paper, Rating, Skeleton, TextField, Typography } from '@mui/material'
 import { Add, Remove } from '@mui/icons-material'
-import BookList from '../../components/BookList/BookList'
-import { bookList } from '../../../../shared/mocks/bookList'
 import CategoryLabel from '../../components/CategoryLabel/CategoryLabel'
 import { useAppDispatch, useAppSelector } from '../../../../redux/hook'
 import ReviewList from '../../components/ReviewList/ReviewList'
@@ -152,7 +150,7 @@ const BookDetailPage: React.FC = () => {
                                 Thể loại: {book.genre}
                             </Typography>
                         </FlexBox>
-                        <Rating value={4} size='small' readOnly/>
+                        <Rating value={book.rating} size='small' readOnly/>
                         <Box component='ul'>
                             <Box component='li'>
                                 <Typography fontSize={14}>Nhà xuất bản : {book.publisher} </Typography>
@@ -224,9 +222,10 @@ const BookDetailPage: React.FC = () => {
             </WrapBox>
 
             <CategoryLabel text='Có thể bạn thích'/>
-            <BookList books={bookList}/>
+            {/* <BookList books={bookList}/> */}
             {/* TODO: */}
         </ContainerStyled>
+
     </Box>
   )
 }
