@@ -10,7 +10,7 @@ interface ITableRequestProps {
 const TableRequest:React.FC<ITableRequestProps> = (props) => {
   
   const { requests } = props
-  const columns = ['', 'Mã', 'Ngày bắt đầu', 'Ngày kết thúc', 'Loại', 'Trạng thái', '']
+  const columns = ['', 'Mã', 'Ngày bắt đầu', 'Ngày kết thúc', 'Loại', 'Trạng thái', 'Phiếu mượn', '']
 
   return (
     <Paper component={Table} elevation={2}>
@@ -35,6 +35,7 @@ const TableRequest:React.FC<ITableRequestProps> = (props) => {
                     type={request.type}
                     status={request.status}
                     books={request.books}
+                    borrow={request.borrow}
                 />
             ))}
         </TableBody>

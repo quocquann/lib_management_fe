@@ -1,5 +1,5 @@
 import { instance } from '../../../../axios/config'
-import { IAuthor, IBook, IBookResponse, IBorrow, IGenre, IRequest, IReview } from '../../models/interface'
+import { IAuthor, IBook, IBookResponse, IBorrow, IDeleteRequestResponse, IGenre, IRequest, IReview } from '../../models/interface'
 
 const getBooks = async (page?:number, search?:string, author?:number, genre?: number, publisher?:number): Promise<IBookResponse> => {
     try { 
@@ -67,13 +67,14 @@ const getRequest = async () : Promise<IRequest[]> => {
     }
 }
 
-const createRequest = async (start_date: string, end_date: string, type: string, book_ids: number[]) : Promise<IRequest> => {
+const createRequest = async (start_date: string, end_date: string, type: string, book_ids: number[], borrow_id?: number) : Promise<IRequest> => {
     try {
         const res = await instance.post("requests/", {
             start_date,
             end_date,
             type,
-            book_ids
+            book_ids,
+            borrow_id
         }, {
             headers: {
                 Authorization: localStorage.getItem('accessToken') ? `Bearer ${localStorage.getItem('accessToken')}` : ""
@@ -84,6 +85,19 @@ const createRequest = async (start_date: string, end_date: string, type: string,
         throw e
     }
 } 
+
+const deleteRequest = async (id: number): Promise<IDeleteRequestResponse> => {
+    try {
+        const res = await instance.delete(`requests/${id}`, {
+            headers: {
+                Authorization: localStorage.getItem("accessToken") ? `Bearer ${localStorage.getItem("accessToken")}` : ""
+            }
+        })
+        return res.data
+    }catch(e){
+        throw e
+    }
+}
 
 const getBorrows = async () : Promise<IBorrow[]> => {
     try {
@@ -134,6 +148,7 @@ const apiRequest = {
     createRequest,
     getBorrows,
     getReviews,
-    createReview
+    createReview,
+    deleteRequest
 }
 export default apiRequest

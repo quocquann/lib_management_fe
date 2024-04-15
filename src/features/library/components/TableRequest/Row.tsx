@@ -1,8 +1,11 @@
 import { KeyboardArrowUp, KeyboardArrowDown, Delete } from '@mui/icons-material'
-import { TableRow, TableCell, IconButton, Collapse, Box, Typography, Chip } from '@mui/material'
+import { TableRow, TableCell, IconButton, Collapse, Box, Typography, Chip, Button, Dialog, DialogActions, DialogTitle } from '@mui/material'
 import React from 'react'
 import BorrowTable from '../BorrowTable/BorrowTable'
 import { IBook } from '../../models/interface'
+import { useAppDispatch } from '../../../../redux/hook'
+import { deleteRequestThunk } from '../../services/states/action'
+import { ETypeAlert, showAlert } from '../../../../shared/helpers/alert'
 
 interface IRowProps {
     id: number
@@ -10,18 +13,21 @@ interface IRowProps {
     endDate: string,
     type: string,
     status: string,
-    books: IBook[]
+    books: IBook[],
+    borrow: number
 }
 
 const Row:React.FC<IRowProps> = (props) => {
 
   const [isOpen, setIsOpen] = React.useState(false)
+  const [isDialogOpen, setIsDialogOpen] = React.useState(false)
+  const dispatch = useAppDispatch()
 
   const handleExpandRow = () => {
     setIsOpen(prev => !prev)
   }
   
-  const { id, startDate, endDate, type, status, books} = props
+  const { id, startDate, endDate, type, status, books, borrow} = props
 
   let chipStatusColor: "success" | "error" | "warning" | "primary" | "secondary" | "info" | "default"
   if(status === 'pending'){
@@ -38,6 +44,23 @@ const Row:React.FC<IRowProps> = (props) => {
     chipTypeColor = 'primary'
   } else {
     chipTypeColor = 'secondary'
+  }
+
+  const handleClickDelete = () => {
+    setIsDialogOpen(true)
+  }
+
+  const handleClose = () => {
+    setIsDialogOpen(false)
+  }
+
+  const handleDelete = async () => {
+    try {
+      await dispatch(deleteRequestThunk(id)).unwrap()
+    } catch (e) {
+      showAlert("Xóa yêu cầu mượn sách thất bại", ETypeAlert.ERROR)
+      setIsDialogOpen(false)
+    }
   }
 
   return (
@@ -64,9 +87,12 @@ const Row:React.FC<IRowProps> = (props) => {
                 <Chip variant='outlined' color={chipStatusColor} label={status} size='small'/>
             </TableCell>
             <TableCell>
-                <IconButton>
+              {borrow ? borrow : "-"}
+            </TableCell>
+            <TableCell>
+              {status === 'pending' ? (<IconButton onClick={handleClickDelete}>
                     <Delete/>
-                </IconButton>
+                </IconButton>) : (<></>)}
             </TableCell>
         </TableRow>
 
@@ -83,6 +109,23 @@ const Row:React.FC<IRowProps> = (props) => {
                 </Collapse>
             </TableCell>
         </TableRow>
+
+        <Dialog
+          open={isDialogOpen}
+          onClose={handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">
+            {`Bạn có chắc chắn muốn xóa yêu cầu mượn sách số ${id}?`}
+          </DialogTitle>
+          <DialogActions>
+            <Button onClick={handleClose} autoFocus>Không</Button>
+            <Button onClick={handleDelete} color="error">
+              Có
+            </Button>
+          </DialogActions>
+        </Dialog>
     </>
   )
 }

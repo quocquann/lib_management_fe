@@ -13,7 +13,8 @@ interface ICreaterequestThunkData {
     start_date: string
     end_date: string
     type: string
-    book_ids: number[]
+    book_ids: number[],
+    borrow_id?: number
 }
 
 interface ICreateReviewThunkParam {
@@ -86,18 +87,28 @@ export const createRequestThunk = createAsyncThunk('request/createRequests', asy
     start_date,
     end_date,
     type,
-    book_ids
+    book_ids,
+    borrow_id
 }:ICreaterequestThunkData) => {
     try {
         const data = apiRequest.createRequest(
             start_date,
             end_date,
             type,
-            book_ids
+            book_ids,
+            borrow_id
         )
-        console.log(data)
         return data
     } catch(e) {
+        throw e
+    }
+})
+
+export const deleteRequestThunk = createAsyncThunk('request/deleteRequest', async (id: number) => {
+    try {
+        const data = apiRequest.deleteRequest(id)
+        return data
+    }catch(e) {
         throw e
     }
 })

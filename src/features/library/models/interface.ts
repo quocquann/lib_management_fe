@@ -40,6 +40,11 @@ export interface IRequest {
     type: string
     reject_reason: string
     books: IBook[]
+    borrow: number
+}
+
+export interface IDeleteRequestResponse {
+    id: number
 }
 
 export interface IBorrow {
