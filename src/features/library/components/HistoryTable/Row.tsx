@@ -28,7 +28,7 @@ const Row:React.FC<IRowProps> = (props) => {
     setIsOpen(prev => !prev)
   }
   
-  const {id, startDate, endDate,actualReturnDate, status, books, overdue} = props
+  const {id, startDate, endDate, actualReturnDate, status, books, overdue} = props
 
   let statusChipColor: "error" | "success" | "default" | "primary" | "secondary" | "info" | "warning"
   if(status === 'borrowed'){
@@ -89,9 +89,10 @@ const Row:React.FC<IRowProps> = (props) => {
                 {overdue && <Chip variant='outlined' label='Quá hạn' color='error' size='small'/>}
             </TableCell>
             <TableCell>
-                <IconButton onClick={handleOpenDialog}>
-                    <AddCircle/>
-                </IconButton>
+                {overdue ? (<></>) : (<IconButton onClick={handleOpenDialog}>
+                                        <AddCircle/>
+                                    </IconButton>)
+                }
             </TableCell>
         </TableRow>
 

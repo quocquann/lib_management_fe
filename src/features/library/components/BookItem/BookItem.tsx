@@ -57,6 +57,12 @@ const WrapperBox = styled(Box)({
     maxWidth: 178
 }) as typeof Box
 
+const FlexBox = styled(Box)({
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+}) as typeof Box
+
 interface IBookItemProps {
     book: IBook
 }
@@ -86,7 +92,10 @@ const BookItem: React.FC<IBookItemProps> = ({book}) => {
         <Link component={RouterLink} to={`/detail/${book.id}`}>
             <TypographyStyled variant='h6' component='h6'>{book.title}</TypographyStyled>
         </Link>
-        <Typography variant='subtitle2' component='p'>{book.genre}</Typography>
+        <FlexBox>
+            <Typography variant='subtitle2' component='p'>{book.genre}</Typography>
+            <Typography variant='subtitle2' component='p'>SL: {book.available}</Typography>
+        </FlexBox>
         <Rating size='small' readOnly value={book.rating}/>
     </WrapperBox>
   )

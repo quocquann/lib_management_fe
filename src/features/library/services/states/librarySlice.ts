@@ -103,8 +103,7 @@ export const librarySlice = createSlice({
             }
         })
         .addCase(createRequestThunk.rejected, (state, action) => {
-            console.log(action)
-            showAlert(action.payload as string, ETypeAlert.ERROR)
+            showAlert('Tạo yêu cầu thất bại', ETypeAlert.ERROR)
         })
         .addCase(getRequestsThunk.fulfilled, (state, action) => {
             state.requests = action.payload

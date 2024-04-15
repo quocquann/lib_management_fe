@@ -86,6 +86,7 @@ const SearchBookPage:React.FC = () => {
   const handleAllBookButtonClick = () => {
     dispatch(getBooksThunk({})).then(() => {
         dispatch(librarySlice.actions.setListTitle("Tất cả"))
+        dispatch(librarySlice.actions.setSearchString(''))
     })
   }
 
