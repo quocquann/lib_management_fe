@@ -63,6 +63,30 @@ const Row:React.FC<IRowProps> = (props) => {
     }
   }
 
+  const getTypeLabel = (type: string) => {
+    switch (type) {
+    case "renew":
+      return "gia hạn"
+    case "borrow":
+      return "mượn"
+    default:
+      throw new Error("invalid case")
+    }
+  }
+
+  const getStatusLabel = (status: string) => {
+    switch (status) {
+    case "pending":
+      return "chờ"
+    case "rejected":
+      return "từ chối"
+    case "approved":
+      return "chấp nhận"
+    default: 
+      throw new Error("Invalid case")
+    }
+  }
+
   return (
     <>
         <TableRow>
@@ -81,10 +105,10 @@ const Row:React.FC<IRowProps> = (props) => {
                 {endDate}
             </TableCell>
             <TableCell>
-                <Chip variant='outlined' color={chipTypeColor} label={type} size='small'/>
+                <Chip variant='outlined' color={chipTypeColor} label={getTypeLabel(type)} size='small'/>
             </TableCell>
             <TableCell>
-                <Chip variant='outlined' color={chipStatusColor} label={status} size='small'/>
+                <Chip variant='outlined' color={chipStatusColor} label={getStatusLabel(status)} size='small'/>
             </TableCell>
             <TableCell>
               {borrow ? borrow : "-"}

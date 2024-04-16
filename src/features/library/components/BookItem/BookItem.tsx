@@ -6,6 +6,7 @@ import { IBook } from '../../models/interface';
 import { useAppDispatch } from '../../../../redux/hook';
 import { librarySlice } from '../../services/states/librarySlice';
 import {Link as RouterLink} from 'react-router-dom'
+import { ETypeAlert, showAlert } from '../../../../shared/helpers/alert';
 
 const PaperStyled = styled(Paper)({
     objectFit: 'fill',
@@ -72,6 +73,10 @@ const BookItem: React.FC<IBookItemProps> = ({book}) => {
   const dispatch = useAppDispatch()  
 
   const handleAddButtonClick = () => {
+    if(book.available <= 0) {
+        showAlert("Số lượng sách trong kho không đủ", ETypeAlert.ERROR)
+        return 
+    }
     dispatch(librarySlice.actions.addBookToBasket(book))
   }  
 

@@ -62,6 +62,17 @@ const Row:React.FC<IRowProps> = (props) => {
     setIsDialogOpen(false)
   }
 
+  const getStatusLabel = (status: string) => {
+    switch (status) {
+    case "borrowed":
+        return "đang mượn"
+    case "returned":
+        return "đã trả"
+    default:
+        throw new Error("Invalid case")
+    }
+  }
+
   return (
     <>
         <TableRow>
@@ -83,7 +94,7 @@ const Row:React.FC<IRowProps> = (props) => {
                 {actualReturnDate}
             </TableCell>
             <TableCell>
-                <Chip variant='outlined' label={status} color={statusChipColor} size='small'/>
+                <Chip variant='outlined' label={getStatusLabel(status)} color={statusChipColor} size='small'/>
             </TableCell>
             <TableCell>
                 {overdue && <Chip variant='outlined' label='Quá hạn' color='error' size='small'/>}
