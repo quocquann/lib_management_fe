@@ -5,12 +5,13 @@ import { Add, Remove } from '@mui/icons-material'
 import CategoryLabel from '../../components/CategoryLabel/CategoryLabel'
 import { useAppDispatch, useAppSelector } from '../../../../redux/hook'
 import ReviewList from '../../components/ReviewList/ReviewList'
-import { createReviewThunk, getBookByIdThunk, getReviewsThunk } from '../../services/states/action'
+import { createReviewThunk, getBookByIdThunk, getRelateBookByIdThunk, getReviewsThunk } from '../../services/states/action'
 import { useParams } from 'react-router-dom'
-import { bookDetailSelector, isDetailLoadingSelector, reviewsSelector } from '../../services/states/selector'
+import { bookDetailSelector, isDetailLoadingSelector, relateBooksSelector, reviewsSelector } from '../../services/states/selector'
 import { librarySlice } from '../../services/states/librarySlice'
 import { isLoggedSelector } from '../../../authentication/services/states/selectors'
 import { ETypeAlert, showAlert } from '../../../../shared/helpers/alert'
+import BookList from '../../components/BookList/BookList'
 
 const ContainerStyled = styled(Container)({
     marginTop: 20,
@@ -74,6 +75,7 @@ const BookDetailPage: React.FC = () => {
   const isDetailLoading = useAppSelector(isDetailLoadingSelector)
   const reviews = useAppSelector(reviewsSelector)
   const isLogged = useAppSelector(isLoggedSelector)
+  const relateBooks = useAppSelector(relateBooksSelector)
   
   React.useEffect(() => {
     dispatch(getBookByIdThunk(id as string))  
@@ -81,6 +83,10 @@ const BookDetailPage: React.FC = () => {
 
   React.useEffect(() => {
     dispatch(getReviewsThunk(id as string))
+  },[dispatch, id])
+
+  React.useEffect(() => {
+    dispatch(getRelateBookByIdThunk(id as string))
   },[dispatch, id])
 
   const handleAddButtonClick = () => {
@@ -159,7 +165,7 @@ const BookDetailPage: React.FC = () => {
                                 <Typography fontSize={14}>ISBN-10 : {book.isbn}</Typography>
                             </Box>
                             <Box component='li'>
-                                <Typography fontSize={14}>Số lượng: 20</Typography>
+                                <Typography fontSize={14}>Số lượng: {book.available}</Typography>
                             </Box>
                         </Box>
 
@@ -222,8 +228,7 @@ const BookDetailPage: React.FC = () => {
             </WrapBox>
 
             <CategoryLabel text='Có thể bạn thích'/>
-            {/* <BookList books={bookList}/> */}
-            {/* TODO: */}
+            <BookList books={relateBooks}/>
         </ContainerStyled>
 
     </Box>

@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { IAuthor, IBook, IBorrow, IGenre, IPublisher, IRequest, IReview } from "../../models/interface";
-import { createRequestThunk, createReviewThunk, deleteRequestThunk, getAuthorsThunk, getBookByIdThunk, getBooksThunk, getBorrowsThunk, getGenresThunk, getPublishersThunk, getRequestsThunk, getReviewsThunk } from "./action";
+import { createRequestThunk, createReviewThunk, deleteRequestThunk, getAuthorsThunk, getBookByIdThunk, getBooksThunk, getBorrowsThunk, getGenresThunk, getPublishersThunk, getRelateBookByIdThunk, getRequestsThunk, getReviewsThunk } from "./action";
 import { ETypeAlert, showAlert } from "../../../../shared/helpers/alert";
 
 export interface ILibraryState {
@@ -17,7 +17,9 @@ export interface ILibraryState {
     numBook: number,
     requests: IRequest[],
     borrows: IBorrow[],
-    reviews: IReview[]
+    reviews: IReview[],
+    relateBooks: IBook[],
+    isRelateBookLoading: boolean
 }
 
 export const librarySlice = createSlice({
@@ -36,7 +38,9 @@ export const librarySlice = createSlice({
         numBook: 0,
         requests: [],
         borrows: [],
-        reviews: []
+        reviews: [],
+        relateBooks: [],
+        isRelateBookLoading: false
     } as ILibraryState,
     reducers: {
         addBookToBasket: (state, action) => {
@@ -81,6 +85,13 @@ export const librarySlice = createSlice({
         .addCase(getBookByIdThunk.rejected, (state, action) => {
             state.isDetailLoading = false
             console.log(action.error)
+        })
+        .addCase(getRelateBookByIdThunk.pending, (state, action) => {
+            state.isRelateBookLoading = true
+        })
+        .addCase(getRelateBookByIdThunk.fulfilled, (state, action) => {
+            state.relateBooks = action.payload
+            state.isRelateBookLoading = false
         })
         .addCase(getAuthorsThunk.fulfilled, (state, action) => {
             state.authors = action.payload

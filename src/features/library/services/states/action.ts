@@ -47,6 +47,15 @@ export const getBookByIdThunk = createAsyncThunk('book/getBookById', async (id: 
     }
 })
 
+export const getRelateBookByIdThunk = createAsyncThunk("book/getRelateBookById", async (id: string) => {
+    try {
+        const data = await apiRequest.getRelateBookById(id)
+        return data
+    }catch(e){
+        throw e
+    }
+})
+
 export const getAuthorsThunk = createAsyncThunk('author/getAuthors', async () => {
     try {
         const data = await apiRequest.getAuthors()

@@ -27,6 +27,15 @@ const getBookById = async (id: string): Promise<IBook> => {
     }
 }
 
+const getRelateBookById = async (id: string): Promise<IBook[]> => {
+    try {
+        const res = await instance.get(`books/relate-book/${id}`)
+        return res.data
+    }catch(e) {
+        throw e
+    }
+}
+
 const getAuthors = async (): Promise<IAuthor[]> => {
     try {
         const res = await instance.get('authors/')
@@ -141,6 +150,7 @@ const createReview = async (id: string, rating: number, comment_text: string) : 
 const apiRequest = {
     getBooks,
     getBookById,
+    getRelateBookById,
     getAuthors,
     getGenres,
     getPublishers,
