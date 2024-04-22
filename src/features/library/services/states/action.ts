@@ -122,9 +122,9 @@ export const deleteRequestThunk = createAsyncThunk('request/deleteRequest', asyn
     }
 })
 
-export const getBorrowsThunk = createAsyncThunk('borrow/getBorrows', async () => {
+export const getBorrowsThunk = createAsyncThunk('borrow/getBorrows', async (page?:number) => {
     try {
-        const data = apiRequest.getBorrows()
+        const data = apiRequest.getBorrows(page)
         return data
     }catch(e) {
         throw e

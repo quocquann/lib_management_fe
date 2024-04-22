@@ -66,7 +66,7 @@ const Header: React.FC = () => {
           </LinkStyled>
           <LinkStyled component={RouterLink} to={"/all-book"}>
             <Typography>
-              Tất cả sách
+              Tra cứu
             </Typography>
           </LinkStyled>
           <LinkStyled component={RouterLink} to={"/history"}>
@@ -82,6 +82,11 @@ const Header: React.FC = () => {
           <LinkStyled component={RouterLink} to={"/calendar"}>
             <Typography>
               Lịch mượn sách
+            </Typography>
+          </LinkStyled>
+          <LinkStyled component={RouterLink} to={"/regulation"}>
+            <Typography>
+              Nội quy
             </Typography>
           </LinkStyled>
 

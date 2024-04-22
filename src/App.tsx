@@ -14,6 +14,7 @@ import { ToastContainer } from 'react-toastify';
 import CalendarPage from './features/library/pages/CalendarPage/CalendarPage';
 import RequestPage from './features/library/pages/RequestPage/RequestPage';
 import PrivateRoute from './shared/components/PrivateRoute/PrivateRoute';
+import RegulationPage from './features/library/pages/RegulationPage/RegulationPage';
 
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
               <Route path="history" element={<PrivateRoute><HistoryPage/></PrivateRoute>}/>
               <Route path="calendar" element={<PrivateRoute><CalendarPage/></PrivateRoute>}/>
               <Route path="request" element={<PrivateRoute><RequestPage/></PrivateRoute>}/>
+              <Route path="regulation" element={<RegulationPage/>}/>
             </Route>
           </Routes>
       </BrowserRouter>

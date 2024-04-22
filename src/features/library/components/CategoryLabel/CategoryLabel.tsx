@@ -12,7 +12,7 @@ const CategoryBox = styled(Box)(({theme}) => ({
 
 const BottomLineBox = styled(Box)({
     borderBottom: '1px solid gray',
-    marginBottom: 30
+    marginBottom: 15
 }) as typeof Box
 
 interface ICategoryProps {

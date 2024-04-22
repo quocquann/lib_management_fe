@@ -87,7 +87,7 @@ const createRequest = async (start_date: string, end_date: string, type: string,
         }, {
             headers: {
                 Authorization: localStorage.getItem('accessToken') ? `Bearer ${localStorage.getItem('accessToken')}` : ""
-              }
+            }
         })
         return res.data
     } catch (e) {
@@ -108,11 +108,14 @@ const deleteRequest = async (id: number): Promise<IDeleteRequestResponse> => {
     }
 }
 
-const getBorrows = async () : Promise<IBorrow[]> => {
+const getBorrows = async (page?:number) : Promise<IBorrow[]> => {
     try {
         const res = await instance.get("borrows/", {
             headers: {
                 Authorization: localStorage.getItem('accessToken') ? `Bearer ${localStorage.getItem('accessToken')}` : ""
+            },
+            params: {
+                page
             }
         })
 

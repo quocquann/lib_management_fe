@@ -8,20 +8,13 @@ import { getBorrowsThunk } from '../../services/states/action'
 
 const HistoryPage:React.FC = () => { 
 
-  const location = useLocation()
+  const [page, setPage] = React.useState(1)
   const dispatch = useAppDispatch()
   const borrows = useAppSelector(borrowsSelector)
 
   React.useEffect(() => {
-    dispatch(getBorrowsThunk())
-  }, [dispatch])
-
-  React.useEffect(() => {
-    if (!!location.state) {
-      console.log(location.state)
-      //TODO: handle scroll
-    }
-  },[location])
+    dispatch(getBorrowsThunk(page))
+  }, [dispatch, page])
 
   return (
     <Box marginTop={20}>
