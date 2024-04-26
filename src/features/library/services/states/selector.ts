@@ -23,3 +23,5 @@ export const numBookSelector = (state: IState) => state.library.numBook
 export const requestsSelector = (state: IState) => state.library.requests
 export const borrowsSelector = (state: IState) => state.library.borrows
 export const reviewsSelector = (state: IState) => state.library.reviews
+export const numBorrowSelector = (state: IState) => state.library.numBorrow
+export const numRequestSelector = (state: IState) => state.library.numRequest

@@ -1,7 +1,7 @@
 import { instance } from '../../../../axios/config'
-import { IAuthor, IBook, IBookResponse, IBorrow, IDeleteRequestResponse, IGenre, IRequest, IReview } from '../../models/interface'
+import { IAuthor, IBook, IDeleteRequestResponse, IGenre, IPaginateResponse, IRequest, IReview } from '../../models/interface'
 
-const getBooks = async (page?:number, search?:string, author?:number, genre?: number, publisher?:number): Promise<IBookResponse> => {
+const getBooks = async (page?:number, search?:string, author?:number, genre?: number, publisher?:number): Promise<IPaginateResponse> => {
     try { 
         const res = await instance.get('books/', {
             params: {
@@ -63,11 +63,14 @@ const getPublishers = async () : Promise<IAuthor[]> => {
     }
 }
 
-const getRequest = async () : Promise<IRequest[]> => {
+const getRequest = async (page?: number) : Promise<IPaginateResponse> => {
     try {
         const res = await instance.get('requests/', {
             headers: {
                 Authorization: localStorage.getItem('accessToken') ? `Bearer ${localStorage.getItem('accessToken')}` : ""
+            }, 
+            params: {
+                page
             }
         })
         return res.data
@@ -108,7 +111,7 @@ const deleteRequest = async (id: number): Promise<IDeleteRequestResponse> => {
     }
 }
 
-const getBorrows = async (page?:number) : Promise<IBorrow[]> => {
+const getBorrows = async (page?:number) : Promise<IPaginateResponse> => {
     try {
         const res = await instance.get("borrows/", {
             headers: {

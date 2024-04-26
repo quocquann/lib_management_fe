@@ -1,7 +1,7 @@
 import { Box, Container } from '@mui/material'
 import React from 'react'
 
-const RegulationPage = () => {
+const RegulationPage: React.FC = () => {
   return (
     <Box marginTop={20}>
         <Container>

@@ -19,7 +19,9 @@ export interface ILibraryState {
     borrows: IBorrow[],
     reviews: IReview[],
     relateBooks: IBook[],
-    isRelateBookLoading: boolean
+    isRelateBookLoading: boolean,
+    numBorrow: number,
+    numRequest: number
 }
 
 export const librarySlice = createSlice({
@@ -40,7 +42,9 @@ export const librarySlice = createSlice({
         borrows: [],
         reviews: [],
         relateBooks: [],
-        isRelateBookLoading: false
+        isRelateBookLoading: false,
+        numBorrow: 0,
+        numRequest: 0
     } as ILibraryState,
     reducers: {
         addBookToBasket: (state, action) => {
@@ -67,7 +71,8 @@ export const librarySlice = createSlice({
             state.isSearchBookLoading = true
         })
         .addCase(getBooksThunk.fulfilled, (state, action) => {
-            state.allBooks = action.payload.results
+            console.log(" book",action.payload)
+            state.allBooks = action.payload.results as IBook[]
             state.numBook = action.payload.count
             state.isSearchBookLoading = false
         })
@@ -117,7 +122,8 @@ export const librarySlice = createSlice({
             showAlert('Tạo yêu cầu thất bại', ETypeAlert.ERROR)
         })
         .addCase(getRequestsThunk.fulfilled, (state, action) => {
-            state.requests = action.payload
+            state.requests = action.payload.results as IRequest[]
+            state.numRequest = action.payload.count
         })
         .addCase(deleteRequestThunk.rejected, (state, action) => {
             
@@ -130,7 +136,8 @@ export const librarySlice = createSlice({
             //TODO: Get borrows pending
         })
         .addCase(getBorrowsThunk.fulfilled, (state, action) => {
-            state.borrows = action.payload
+            state.borrows = action.payload.results as IBorrow[]
+            state.numBorrow = action.payload.count
         })
         .addCase(getBorrowsThunk.rejected, (state, action) => {
             //TODO: Get borrows rejected

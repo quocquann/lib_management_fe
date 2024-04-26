@@ -25,16 +25,14 @@ const CalendarPage: React.FC = () => {
     dispatch(getBorrowsThunk())
   }, [dispatch])
 
-  let events: IEvent[] = []
-
-  borrows.map((borrow) => {
+  const events = borrows.map((borrow) => {
     const event:IEvent = {
       title: `MP: ${borrow.id}`,
       start: new Date(borrow.borrow_date),
       end: new Date(borrow.return_date)
     }
 
-    events = [...events, event]
+    return event
   })
 
   const handleEventClick = (arg:EventClickArg) => {

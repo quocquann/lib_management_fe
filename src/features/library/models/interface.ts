@@ -26,13 +26,6 @@ export interface IPublisher {
     name: string
 }
 
-export interface IBookResponse {
-    count: number
-    next: string | null
-    previous: string | null
-    results: IBook[]
-}
-
 export interface IRequest {
     id: number
     start_date: string
@@ -56,6 +49,13 @@ export interface IBorrow {
     status: string
     books: IBook[]
     overdue: boolean
+}
+
+export interface IPaginateResponse {
+    count: number
+    next: string | null
+    previous: string | null
+    results: IBorrow[] | IBook[] | IRequest[]
 }
 
 export interface IReview {

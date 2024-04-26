@@ -41,11 +41,11 @@ const HomePage: React.FC = () => {
           Chào mừng bạn đọc tới thư viện
         </Typography>
         <Typography fontSize={16} marginBottom={3}>
-          {'>'} Để sử dụng tài liệu của thư viện các bạn phải có một tài khoản để đăng nhập.
+          {'>'} Để tạo các yêu cầu mượn sách của thư viện các bạn phải có một tài khoản để đăng nhập.
         </Typography>
 
         <Typography>
-          Tra cứu nhanh (theo tiêu đề):
+          Tra cứu nhanh (theo tiêu đề, tác giả, thể loại, nhà xuất bản):
         </Typography>
         <FlexBox marginY={2}>
           <TextField
@@ -68,10 +68,10 @@ const HomePage: React.FC = () => {
         <CategoryLabel text="Tài liệu"/>
         <List component={"ol"}>
           {bookList.length ? bookList.map((book, index) => (
-            <ListItem component={"li"}> 
+            <ListItem component={"li"} key={book.id} alignItems='flex-start'> 
               {index + 1}.  
               <Link component={RouterLink} to={`/detail/${book.id}`}>
-                {book.title}
+                {book.title} - Tác giả: {book.author} - Thể loại: {book.genre} - NXB: {book.publisher}
               </Link>
             </ListItem>
           )) : <Typography textAlign='center'>Không có tài liệu nào thỏa mãn</Typography>}

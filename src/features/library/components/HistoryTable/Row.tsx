@@ -100,7 +100,7 @@ const Row:React.FC<IRowProps> = (props) => {
                 {overdue && <Chip variant='outlined' label='Quá hạn' color='error' size='small'/>}
             </TableCell>
             <TableCell>
-                {overdue ? (<></>) : (<IconButton onClick={handleOpenDialog}>
+                {overdue || status === "returned" ? (<></>) : (<IconButton onClick={handleOpenDialog}>
                                         <AddCircle/>
                                     </IconButton>)
                 }

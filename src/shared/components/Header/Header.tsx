@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Link from '@mui/material/Link'
 import { Badge, Box, IconButton, ListItemIcon, Menu, MenuItem} from '@mui/material';
-import { Logout, ShoppingBag } from '@mui/icons-material';
+import { Logout, ShoppingBag, Timeline, CalendarMonth, HelpOutline } from '@mui/icons-material';
 import { useAppDispatch, useAppSelector } from '../../../redux/hook';
 import { booksInBasketSelector } from '../../../features/library/services/states/selector';
 import {Link as RouterLink} from 'react-router-dom'
@@ -33,7 +33,6 @@ const IconButtonStyled = styled(IconButton)({
 const Header: React.FC = () => {
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
-  const open = Boolean(anchorEl)
 
   const dispatch = useAppDispatch()
 
@@ -55,6 +54,7 @@ const Header: React.FC = () => {
 
   const handleLogoutButtonClick = () => {
     dispatch(authenticationSlice.actions.logout())
+    setAnchorEl(null)
   }
 
   return (
@@ -67,21 +67,6 @@ const Header: React.FC = () => {
           <LinkStyled component={RouterLink} to={"/all-book"}>
             <Typography>
               Tra cứu
-            </Typography>
-          </LinkStyled>
-          <LinkStyled component={RouterLink} to={"/history"}>
-            <Typography>
-              Lịch sử
-            </Typography>
-          </LinkStyled>
-          <LinkStyled component={RouterLink} to={"/request"}>
-            <Typography>
-              Yêu cầu 
-            </Typography>
-          </LinkStyled>
-          <LinkStyled component={RouterLink} to={"/calendar"}>
-            <Typography>
-              Lịch mượn sách
             </Typography>
           </LinkStyled>
           <LinkStyled component={RouterLink} to={"/regulation"}>
@@ -102,10 +87,28 @@ const Header: React.FC = () => {
           { isLogged ? (
             <>
               <Menu 
-                open={open}
+                open={Boolean(anchorEl)}
                 anchorEl={anchorEl}
                 onClose={handleCloseMenu}
               >
+                <MenuItem onClick={handleCloseMenu} component={RouterLink} to="/history">
+                  <ListItemIcon>
+                    <Timeline fontSize="small"/>
+                  </ListItemIcon>
+                  Phiếu mượn
+                </MenuItem>
+                <MenuItem onClick={handleCloseMenu} component={RouterLink} to="/request">
+                  <ListItemIcon>
+                    <HelpOutline fontSize="small"/>
+                  </ListItemIcon>
+                  Yêu cầu mượn
+                </MenuItem>
+                <MenuItem onClick={handleCloseMenu} component={RouterLink} to="/calendar">
+                  <ListItemIcon>
+                    <CalendarMonth fontSize="small"/>
+                  </ListItemIcon>
+                  Lịch
+                </MenuItem>
                 <MenuItem onClick={handleLogoutButtonClick}>
                   <ListItemIcon>
                     <Logout fontSize="small" />

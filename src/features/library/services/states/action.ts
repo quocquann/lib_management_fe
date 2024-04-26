@@ -83,9 +83,9 @@ export const getPublishersThunk = createAsyncThunk('publisher/getPublishers', as
     }
 })
 
-export const getRequestsThunk = createAsyncThunk('requests/getRequests', async () => {
+export const getRequestsThunk = createAsyncThunk('requests/getRequests', async (page: number) => {
     try {
-        const data = apiRequest.getRequest()
+        const data = apiRequest.getRequest(page)
         return data
     }catch(e) {
         throw e

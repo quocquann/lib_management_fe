@@ -1,9 +1,8 @@
-import { Box, Container, Typography } from '@mui/material'
+import { Box, Container, Pagination, Typography } from '@mui/material'
 import React from 'react'
 import HistoryTable from '../../components/HistoryTable/HistoryTable'
-import { useLocation } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../../../../redux/hook'
-import { borrowsSelector } from '../../services/states/selector'
+import { borrowsSelector, numBorrowSelector } from '../../services/states/selector'
 import { getBorrowsThunk } from '../../services/states/action'
 
 const HistoryPage:React.FC = () => { 
@@ -11,10 +10,17 @@ const HistoryPage:React.FC = () => {
   const [page, setPage] = React.useState(1)
   const dispatch = useAppDispatch()
   const borrows = useAppSelector(borrowsSelector)
+  const numBorrow = useAppSelector(numBorrowSelector)
 
   React.useEffect(() => {
     dispatch(getBorrowsThunk(page))
   }, [dispatch, page])
+
+  const PAGE_SIZE = 5
+
+  const handlePageChange = (event: React.ChangeEvent<unknown>, page: number) => {
+    setPage(page)
+  }
 
   return (
     <Box marginTop={20}>
@@ -23,6 +29,13 @@ const HistoryPage:React.FC = () => {
                 Lịch sử
             </Typography>
             <HistoryTable borrows={borrows}/>
+            <Box 
+              display={'flex'} 
+              justifyContent={'flex-end'} 
+              marginTop={10}
+            >
+              {Math.ceil(numBorrow/PAGE_SIZE) <= 1 ? "" : (<Pagination onChange={handlePageChange} page={page} count={Math.ceil(numBorrow/PAGE_SIZE)} shape="rounded" />)}
+            </Box>
         </Container>
     </Box>
   )
