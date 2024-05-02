@@ -74,6 +74,11 @@ const Header: React.FC = () => {
               Nội quy
             </Typography>
           </LinkStyled>
+          <LinkStyled component={RouterLink} to={"/help"}>
+            <Typography>
+              Hướng dẫn
+            </Typography>
+          </LinkStyled>
 
           <BoxStyled/>
 

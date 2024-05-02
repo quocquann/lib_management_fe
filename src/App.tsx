@@ -15,6 +15,7 @@ import CalendarPage from './features/library/pages/CalendarPage/CalendarPage';
 import RequestPage from './features/library/pages/RequestPage/RequestPage';
 import PrivateRoute from './shared/components/PrivateRoute/PrivateRoute';
 import RegulationPage from './features/library/pages/RegulationPage/RegulationPage';
+import HelpPage from './features/library/pages/HelpPage/HelpPage';
 
 
 function App() {
@@ -36,6 +37,7 @@ function App() {
               <Route path="calendar" element={<PrivateRoute><CalendarPage/></PrivateRoute>}/>
               <Route path="request" element={<PrivateRoute><RequestPage/></PrivateRoute>}/>
               <Route path="regulation" element={<RegulationPage/>}/>
+              <Route path="help" element={<HelpPage/>}/>
             </Route>
           </Routes>
       </BrowserRouter>
