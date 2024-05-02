@@ -56,6 +56,15 @@ export const getRelateBookByIdThunk = createAsyncThunk("book/getRelateBookById",
     }
 })
 
+export const getMostBorrowBookThunk = createAsyncThunk("book/getMostBorrowBookThunk", async () => {
+    try {
+        const data = await apiRequest.getMostBorrowBook()
+        return data
+    } catch(e) {
+        throw e
+    }
+})
+
 export const getAuthorsThunk = createAsyncThunk('author/getAuthors', async () => {
     try {
         const data = await apiRequest.getAuthors()

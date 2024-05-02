@@ -2,8 +2,8 @@ import React from 'react'
 import { Box, Button, Container, InputAdornment, Link, List, ListItem, TextField, Typography } from '@mui/material'
 import CategoryLabel from '../../components/CategoryLabel/CategoryLabel'
 import { useAppDispatch, useAppSelector } from '../../../../redux/hook'
-import { allBooksSelector } from '../../services/states/selector'
-import { getBooksThunk } from '../../services/states/action'
+import { allBooksSelector, mostBorrowBookSelector } from '../../services/states/selector'
+import { getBooksThunk, getMostBorrowBookThunk } from '../../services/states/action'
 import {Link as RouterLink} from 'react-router-dom'
 import { Search } from '@mui/icons-material'
 import {styled} from '@mui/material/styles'
@@ -24,7 +24,12 @@ const HomePage: React.FC = () => {
     dispatch(getBooksThunk({}))
   },[dispatch])
 
+  React.useEffect(() => {
+    dispatch(getMostBorrowBookThunk())
+  }, [dispatch])
+
   const bookList = useAppSelector(allBooksSelector)
+  const mostBorrowBooks = useAppSelector(mostBorrowBookSelector)
 
   const handleInputChange = (event : React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setSearchString(event.target.value)
@@ -65,13 +70,24 @@ const HomePage: React.FC = () => {
           />
           <Button variant='contained' onClick={handleSearchButtonClick}>Tìm kiếm</Button>
         </FlexBox>
-        <CategoryLabel text="Tài liệu"/>
+        <CategoryLabel text="Tài liệu mới"/>
         <List component={"ol"}>
           {bookList.length ? bookList.map((book, index) => (
             <ListItem component={"li"} key={book.id} alignItems='flex-start'> 
               {index + 1}.  
               <Link component={RouterLink} to={`/detail/${book.id}`}>
                 {book.title} - Tác giả: {book.author} - Thể loại: {book.genre} - NXB: {book.publisher}
+              </Link>
+            </ListItem>
+          )) : <Typography textAlign='center'>Không có tài liệu nào thỏa mãn</Typography>}
+        </List>
+        <CategoryLabel text='Tài liệu có nhiều lượt mượn'/>
+        <List component={"ol"}>
+          {mostBorrowBooks.length ? mostBorrowBooks.map((book, index) => (
+            <ListItem component={"li"} key={book.id} alignItems='flex-start'> 
+              {index + 1}.  
+              <Link component={RouterLink} to={`/detail/${book.id}`}>
+                {book.title} - Tác giả: {book.author} - Thể loại: {book.genre} - NXB: {book.publisher} <Typography color={"red"} component='span'>{`(${book.borrowCount} lượt)`}</Typography>
               </Link>
             </ListItem>
           )) : <Typography textAlign='center'>Không có tài liệu nào thỏa mãn</Typography>}

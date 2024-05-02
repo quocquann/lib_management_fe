@@ -36,6 +36,15 @@ const getRelateBookById = async (id: string): Promise<IBook[]> => {
     }
 }
 
+const getMostBorrowBook = async (): Promise<IBook[]> => {
+    try {
+        const res = await instance.get('books/most-borrow')
+        return res.data
+    } catch(e) {
+        throw e
+    }
+}
+
 const getAuthors = async (): Promise<IAuthor[]> => {
     try {
         const res = await instance.get('authors/')
@@ -157,6 +166,7 @@ const apiRequest = {
     getBooks,
     getBookById,
     getRelateBookById,
+    getMostBorrowBook,
     getAuthors,
     getGenres,
     getPublishers,

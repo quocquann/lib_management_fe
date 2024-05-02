@@ -9,6 +9,7 @@ export interface IBook {
     publisher: string 
     rating: number
     available: number  
+    borrowCount?: number
 }
 
 export interface IAuthor {

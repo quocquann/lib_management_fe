@@ -69,14 +69,14 @@ const Header: React.FC = () => {
               Tra cứu
             </Typography>
           </LinkStyled>
-          <LinkStyled component={RouterLink} to={"/regulation"}>
-            <Typography>
-              Nội quy
-            </Typography>
-          </LinkStyled>
           <LinkStyled component={RouterLink} to={"/help"}>
             <Typography>
               Hướng dẫn
+            </Typography>
+          </LinkStyled>
+          <LinkStyled component={RouterLink} to={"/regulation"}>
+            <Typography>
+              Nội quy
             </Typography>
           </LinkStyled>
 

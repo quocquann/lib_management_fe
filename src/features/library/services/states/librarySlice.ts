@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { IAuthor, IBook, IBorrow, IGenre, IPublisher, IRequest, IReview } from "../../models/interface";
-import { createRequestThunk, createReviewThunk, deleteRequestThunk, getAuthorsThunk, getBookByIdThunk, getBooksThunk, getBorrowsThunk, getGenresThunk, getPublishersThunk, getRelateBookByIdThunk, getRequestsThunk, getReviewsThunk } from "./action";
+import { createRequestThunk, createReviewThunk, deleteRequestThunk, getAuthorsThunk, getBookByIdThunk, getBooksThunk, getBorrowsThunk, getGenresThunk, getMostBorrowBookThunk, getPublishersThunk, getRelateBookByIdThunk, getRequestsThunk, getReviewsThunk } from "./action";
 import { ETypeAlert, showAlert } from "../../../../shared/helpers/alert";
 
 export interface ILibraryState {
@@ -21,7 +21,8 @@ export interface ILibraryState {
     relateBooks: IBook[],
     isRelateBookLoading: boolean,
     numBorrow: number,
-    numRequest: number
+    numRequest: number,
+    mostBorrowBooks: IBook[]
 }
 
 export const librarySlice = createSlice({
@@ -44,7 +45,8 @@ export const librarySlice = createSlice({
         relateBooks: [],
         isRelateBookLoading: false,
         numBorrow: 0,
-        numRequest: 0
+        numRequest: 0,
+        mostBorrowBooks: []
     } as ILibraryState,
     reducers: {
         addBookToBasket: (state, action) => {
@@ -97,6 +99,9 @@ export const librarySlice = createSlice({
         .addCase(getRelateBookByIdThunk.fulfilled, (state, action) => {
             state.relateBooks = action.payload
             state.isRelateBookLoading = false
+        })
+        .addCase(getMostBorrowBookThunk.fulfilled, (state, action) => {
+            state.mostBorrowBooks = action.payload
         })
         .addCase(getAuthorsThunk.fulfilled, (state, action) => {
             state.authors = action.payload
