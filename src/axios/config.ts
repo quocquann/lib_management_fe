@@ -17,13 +17,23 @@ instance.interceptors.response.use(
         if((error.response.status === 401 || error.response.status === 403) && !originalRequest._retry){
             originalRequest._retry = true
 
-            const res = await instance.post('token/refresh/', {
-                refresh: localStorage.getItem('refreshToken')
-            })
+            let refreshToken = localStorage.getItem("refreshToken")
+            try {
+                const res = await instance.post('token/refresh/', {
+                    refresh: refreshToken
+                })
+    
+                localStorage.setItem("accessToken", res.data.access)
+    
+                return instance(originalRequest)
+            }catch (refreshError: any) {
+                if (refreshError.response && (refreshError.response.status === 401 || refreshError.response.status === 403)) {
+                    localStorage.removeItem("accessToken");
+                    localStorage.removeItem("refreshToken");
+                }
 
-            localStorage.setItem("accessToken", res.data.access)
-
-            return instance(originalRequest)
+                return Promise.reject(refreshError)
+            }
         }
 
         return Promise.reject(error)    
